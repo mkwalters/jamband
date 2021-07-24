@@ -8,15 +8,15 @@ var indexRouter = require("./routes/index");
 var authRouter = require("./routes/auth");
 var myaccountRouter = require("./routes/myaccount");
 var usersRouter = require("./routes/users");
+var testRouter = require("./routes/test");
 
 var app = express();
-
 require("./boot/db")();
 require("./boot/auth")();
 
 // view engine setup
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "ejs");
+// app.set("views", path.join(__dirname, "views"));
+// app.set("view engine", "ejs");
 
 // Use application-level middleware for common functionality, including
 // logging, parsing, and session handling.
@@ -43,13 +43,15 @@ app.use(passport.initialize());
 app.use(passport.authenticate("session"));
 
 // Define routes.
-// app.use("/", indexRouter);
-// app.use("/", authRouter);
+app.use("/", authRouter);
 
-app.get("/", function (req, res) {
-  res.sendFile(path.join(__dirname, "build"));
-});
+app.use("/api/getList", testRouter);
+
 app.use("/myaccount", myaccountRouter);
 app.use("/users", usersRouter);
+
+app.get("*", function (req, res) {
+  res.sendFile(path.join(__dirname, "build"));
+});
 
 module.exports = app;
