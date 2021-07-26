@@ -46,7 +46,7 @@ app.use(passport.authenticate("session"));
 app.use("/", authRouter);
 
 app.use("/getUser", function (req, res, next) {
-  console.log(req.user);
+  res.json(req.user);
 });
 
 app.use("/api/getList", testRouter);

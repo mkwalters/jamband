@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -15,6 +15,7 @@ import Login from "./views/login";
 import Discover from "./views/discover";
 import Create from "./views/create";
 import { makeStyles } from "@material-ui/core/styles";
+import { UserContext } from "./UserContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,6 +31,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function App() {
   const classes = useStyles();
+
+  const [user, setUser] = useState("hello from xontext");
   return (
     <Router>
       <div>
@@ -62,32 +65,34 @@ export default function App() {
 
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
-        <Switch>
-          <Route path="/about">
-            <About />
-          </Route>
-          <Route path="/users">
-            <Users />
-          </Route>
-          <Route path="/info">
-            <Info />
-          </Route>
-          <Route path="/signup">
-            <Signup />
-          </Route>
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Route path="/discover">
-            <Discover />
-          </Route>
-          <Route path="/create">
-            <Create />
-          </Route>
-          <Route path="/">
-            <Home />
-          </Route>
-        </Switch>
+        <UserContext.Provider value={{ user, setUser }}>
+          <Switch>
+            <Route path="/about">
+              <About />
+            </Route>
+            <Route path="/users">
+              <Users />
+            </Route>
+            <Route path="/info">
+              <Info />
+            </Route>
+            <Route path="/signup">
+              <Signup />
+            </Route>
+            <Route path="/login">
+              <Login />
+            </Route>
+            <Route path="/discover">
+              <Discover />
+            </Route>
+            <Route path="/create">
+              <Create />
+            </Route>
+            <Route path="/">
+              <Home />
+            </Route>
+          </Switch>
+        </UserContext.Provider>
       </div>
     </Router>
   );
