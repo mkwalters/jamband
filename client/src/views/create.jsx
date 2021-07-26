@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
-import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import { UserContext } from "../UserContext";
+import FileUpload from "../components/FileUpload";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
 const Create = () => {
   const classes = useStyles();
   const { user, setUser } = useContext(UserContext);
+
   return (
     <div className="App">
       {/* <Button
@@ -23,11 +24,9 @@ const Create = () => {
       >
         Upload
       </Button> */}
-      <Button variant="contained" component="label">
-        Upload File
-        <input type="file" hidden />
-      </Button>
-      <p>{user}</p>
+      <p>{JSON.stringify(user)}</p>
+      <p>lisv</p>
+      <FileUpload />
     </div>
   );
 };

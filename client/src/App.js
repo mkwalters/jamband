@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   AppBar,
   Toolbar,
@@ -32,7 +32,19 @@ const useStyles = makeStyles((theme) => ({
 export default function App() {
   const classes = useStyles();
 
-  const [user, setUser] = useState("hello from xontext");
+  const [user, setUser] = useState(null);
+  const getUser = async () => {
+    fetch("/getUser").then((data) => {
+      data.json().then((json) => {
+        setUser(json);
+      });
+    });
+  };
+
+  useEffect(() => {
+    setUser(getUser());
+  }, []);
+
   return (
     <Router>
       <div>

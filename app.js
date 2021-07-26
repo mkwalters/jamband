@@ -8,7 +8,9 @@ var indexRouter = require("./routes/index");
 var authRouter = require("./routes/auth");
 var myaccountRouter = require("./routes/myaccount");
 var usersRouter = require("./routes/users");
+var uploadRouter = require("./routes/upload");
 var testRouter = require("./routes/test");
+const fileUpload = require("express-fileupload");
 
 var app = express();
 require("./boot/db")();
@@ -20,7 +22,9 @@ require("./boot/auth")();
 
 // Use application-level middleware for common functionality, including
 // logging, parsing, and session handling.
+
 app.use(logger("dev"));
+app.use(fileUpload());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -48,6 +52,26 @@ app.use("/", authRouter);
 app.use("/getUser", function (req, res, next) {
   res.json(req.user);
 });
+
+// app.post("/upload", (req, res) => {
+//   if (req.files === null) {
+//     return res.status(400).json({ msg: "No file uploaded" });
+//   }
+
+//   console.log(req.files);
+//   const file = req.files.file;
+
+//   file.mv(`${__dirname}/uploads/${file.name}`, (err) => {
+//     if (err) {
+//       console.error(err);
+//       return res.status(500).send(err);
+//     }
+
+//     res.json({ fileName: file.name, filePath: `/uploads/${file.name}` });
+//   });
+// });
+
+app.use("/upload", uploadRouter);
 
 app.use("/api/getList", testRouter);
 
