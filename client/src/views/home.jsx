@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Image from "./Image";
+import { ThemeContextProvider } from "../themeContext";
 
 const Home = () => {
   const testFetch = () => {
@@ -9,11 +11,14 @@ const Home = () => {
   };
 
   return (
-    <div className="App">
-      <h1>Project Home</h1>
-      <Link to="./info">info</Link>
-      <button onClick={testFetch}>fetch</button>
-    </div>
+    <ThemeContextProvider>
+      <div className="App">
+        <h1>Project Home</h1>
+        <Link to="./info">info</Link>
+        <Image></Image>
+      </div>
+    </ThemeContextProvider>
   );
 };
+
 export default Home;

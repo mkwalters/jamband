@@ -45,6 +45,10 @@ app.use(passport.authenticate("session"));
 // Define routes.
 app.use("/", authRouter);
 
+app.use("/getUser", function (req, res, next) {
+  console.log(req.user);
+});
+
 app.use("/api/getList", testRouter);
 
 app.use("/myaccount", myaccountRouter);

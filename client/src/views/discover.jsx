@@ -1,17 +1,15 @@
-import React, { Component } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
-class Discover extends Component {
-  render() {
-    return (
-      <div className="App">
-        <h1>discover</h1>
-        {/* Link to List.js */}
-        {/* <Link to={"./list"}>
-          <button variant="raised">My List</button>
-        </Link> */}
-      </div>
-    );
-  }
-}
+const Discover = () => {
+  const getUser = () => {
+    fetch("getUser");
+  };
+  return (
+    <div className="App">
+      <p>discover</p>
+      <button onClick={getUser}>grab the user</button>
+    </div>
+  );
+};
 export default Discover;
