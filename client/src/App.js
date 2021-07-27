@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
-  Button,
-} from "@material-ui/core";
-import MenuIcon from "@material-ui/icons/Menu";
+import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Home from "./views/home";
 import Info from "./views/info";
@@ -79,12 +72,6 @@ export default function App() {
             renders the first one that matches the current URL. */}
         <UserContext.Provider value={{ user, setUser }}>
           <Switch>
-            <Route path="/about">
-              <About />
-            </Route>
-            <Route path="/users">
-              <Users />
-            </Route>
             <Route path="/info">
               <Info />
             </Route>
@@ -108,16 +95,4 @@ export default function App() {
       </div>
     </Router>
   );
-}
-
-// function Home() {
-//   return <h2>Home</h2>;
-// }
-
-function About() {
-  return <h2>About</h2>;
-}
-
-function Users() {
-  return <h2>Users</h2>;
 }
