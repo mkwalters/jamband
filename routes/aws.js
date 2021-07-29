@@ -3,7 +3,7 @@ var AWS = require("aws-sdk");
 var router = express.Router();
 const fs = require("fs");
 const { v4: uuidv4 } = require("uuid");
-var db = require("../db");
+var database = require("../database");
 
 require("dotenv").config();
 
@@ -35,7 +35,7 @@ const uploadFile = (fileName) => {
     }
     console.log(`File uploaded successfully. ${data.Location}`);
 
-    db.run("INSERT INTO songs (s3ID) VALUES (?)", [s3key]);
+    database.query("INSERT INTO songs (s3Key) VALUES ($1)", [s3key]);
     // db.run("INSERT INTO songs (s3ID) VALUES (" + s3key + ")");
   });
 };

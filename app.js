@@ -8,7 +8,7 @@ var authRouter = require("./routes/auth");
 var myaccountRouter = require("./routes/myaccount");
 var usersRouter = require("./routes/users");
 var awsRouter = require("./routes/aws");
-var testRouter = require("./routes/test");
+var songsRouter = require("./routes/songs");
 const fileUpload = require("express-fileupload");
 
 var app = express();
@@ -45,10 +45,9 @@ app.use("/getUser", function (req, res, next) {
 });
 
 app.use("/aws", awsRouter);
+app.use("/songs", songsRouter);
 
-app.use("/api/getList", testRouter);
-
-app.use("/myaccount", myaccountRouter);
+// app.use("/myaccount", myaccountRouter);
 app.use("/users", usersRouter);
 
 app.get("*", function (req, res) {

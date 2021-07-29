@@ -1,6 +1,5 @@
 var express = require("express");
 var crypto = require("crypto");
-var db = require("../db");
 
 var database = require("../database");
 
