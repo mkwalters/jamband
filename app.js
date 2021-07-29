@@ -4,7 +4,6 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 
-var indexRouter = require("./routes/index");
 var authRouter = require("./routes/auth");
 var myaccountRouter = require("./routes/myaccount");
 var usersRouter = require("./routes/users");
@@ -12,18 +11,8 @@ var awsRouter = require("./routes/aws");
 var testRouter = require("./routes/test");
 const fileUpload = require("express-fileupload");
 
-const pool = require("./database.js");
-
 var app = express();
-require("./boot/db")();
 require("./boot/auth")();
-
-// view engine setup
-// app.set("views", path.join(__dirname, "views"));
-// app.set("view engine", "ejs");
-
-// Use application-level middleware for common functionality, including
-// logging, parsing, and session handling.
 
 app.use(logger("dev"));
 app.use(fileUpload());
@@ -50,11 +39,6 @@ app.use(passport.authenticate("session"));
 
 // Define routes.
 app.use("/", authRouter);
-
-app.get("/pgTest", async (req, res) => {
-  pool.query("INSERT INTO todo (description) VALUES($1)", ["make an app"]);
-  // res.json(req.user);
-});
 
 app.use("/getUser", function (req, res, next) {
   res.json(req.user);
