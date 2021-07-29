@@ -5,7 +5,7 @@ import "react-h5-audio-player/lib/styles.css";
 
 const Discover = () => {
   const { user, setUser } = useContext(UserContext);
-  const [testSong, setTestSong] = useState(null);
+
   const getUser = async () => {
     fetch("/getUser").then((data) => {
       data.json().then((json) => {
@@ -13,21 +13,6 @@ const Discover = () => {
       });
     });
   };
-
-  // const getTest = () => {
-  //   fetch("https://jamband.s3.us-west-1.amazonaws.com/test.mp3").then(
-  //     (response) => {
-  //       setTestSong(
-  //         response.body
-  //           .getReader()
-  //           .read()
-  //           .then(({ done, value }) => {
-  //             console.log(value);
-  //           })
-  //       );
-  //     }
-  //   );
-  // };
 
   const readData = () => {
     fetch("/pgTest");

@@ -38,6 +38,11 @@ export default function App() {
     setUser(getUser());
   }, []);
 
+  const logout = () => {
+    fetch("/logout");
+    setUser(null);
+  };
+
   return (
     <Router>
       <div>
@@ -67,6 +72,10 @@ export default function App() {
 
               <Button variant="outlined" component={Link} to={"/signup"}>
                 Sign up
+              </Button>
+
+              <Button variant="outlined" component={Link} onClick={logout}>
+                Logout
               </Button>
             </Toolbar>
           </AppBar>
