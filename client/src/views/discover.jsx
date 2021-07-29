@@ -30,7 +30,7 @@ const Discover = () => {
   // };
 
   const readData = () => {
-    console.log(testSong);
+    fetch("/pgTest");
   };
 
   useEffect(() => {

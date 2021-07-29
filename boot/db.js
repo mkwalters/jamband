@@ -13,7 +13,7 @@ module.exports = function () {
 
     db.run(
       "CREATE TABLE IF NOT EXISTS songs ( \
-      s3ID INT UNIQUE, \
+      s3ID TEXT UNIQUE, \
       userID INT \
     )"
     );

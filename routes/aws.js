@@ -2,6 +2,8 @@ var express = require("express");
 var AWS = require("aws-sdk");
 var router = express.Router();
 const fs = require("fs");
+const { v4: uuidv4 } = require("uuid");
+var db = require("../db");
 
 require("dotenv").config();
 
@@ -14,14 +16,15 @@ const s3 = new AWS.S3({
   secretAccessKey: SECRET,
 });
 
-const uploadFile = (fileName, storageFilename) => {
+const uploadFile = (fileName) => {
   // Read content from the file
   const fileContent = fs.readFileSync(fileName);
-
+  const s3key = uuidv4() + ".mp3";
+  console.log(s3key);
   // Setting up S3 upload parameters
   const params = {
     Bucket: BUCKET_NAME,
-    Key: storageFilename, // File name you want to save as in S3
+    Key: s3key, // File name you want to save as in S3
     Body: fileContent,
   };
 
@@ -31,6 +34,9 @@ const uploadFile = (fileName, storageFilename) => {
       throw err;
     }
     console.log(`File uploaded successfully. ${data.Location}`);
+
+    db.run("INSERT INTO songs (s3ID) VALUES (?)", [s3key]);
+    // db.run("INSERT INTO songs (s3ID) VALUES (" + s3key + ")");
   });
 };
 

@@ -12,6 +12,8 @@ var awsRouter = require("./routes/aws");
 var testRouter = require("./routes/test");
 const fileUpload = require("express-fileupload");
 
+const pool = require("./database.js");
+
 var app = express();
 require("./boot/db")();
 require("./boot/auth")();
@@ -48,6 +50,11 @@ app.use(passport.authenticate("session"));
 
 // Define routes.
 app.use("/", authRouter);
+
+app.get("/pgTest", async (req, res) => {
+  pool.query("INSERT INTO todo (description) VALUES($1)", ["make an app"]);
+  // res.json(req.user);
+});
 
 app.use("/getUser", function (req, res, next) {
   res.json(req.user);

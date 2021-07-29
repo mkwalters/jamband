@@ -58,9 +58,13 @@ export default function App() {
               <Typography variant="h6" className={classes.title}>
                 News
               </Typography>
-              <Button variant="outlined" component={Link} to={"/login"}>
-                Log in
-              </Button>
+
+              {true && (
+                <Button variant="outlined" component={Link} to={"/login"}>
+                  Log in
+                </Button>
+              )}
+
               <Button variant="outlined" component={Link} to={"/signup"}>
                 Sign up
               </Button>
