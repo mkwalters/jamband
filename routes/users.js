@@ -2,6 +2,8 @@ var express = require("express");
 var crypto = require("crypto");
 var db = require("../db");
 
+var database = require("../database");
+
 var router = express.Router();
 
 router.get("/new", function (req, res, next) {
@@ -21,27 +23,30 @@ router.post("/", function (req, res, next) {
         return next(err);
       }
 
-      db.run(
-        "INSERT INTO users (username, hashed_password, salt, name) VALUES (?, ?, ?, ?)",
-        [req.body.username, hashedPassword, salt, req.body.name],
-        function (err) {
+      database
+        .query(
+          "INSERT INTO users (username, hashed_password, salt, name) VALUES ($1, $2, $3, $4) RETURNING id",
+          [req.body.username, hashedPassword, salt, req.body.name]
+        )
+        .then((result) => {
           if (err) {
             return next(err);
           }
 
+          console.log(result.rows);
           var user = {
-            id: this.lastID.toString(),
+            id: result.rows[0].id,
             username: req.body.username,
             displayName: req.body.name,
           };
+          console.log(user);
           req.login(user, function (err) {
             if (err) {
               return next(err);
             }
             res.redirect("/");
           });
-        }
-      );
+        });
     }
   );
 });

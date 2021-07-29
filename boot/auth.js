@@ -3,6 +3,8 @@ var Strategy = require("passport-local");
 var crypto = require("crypto");
 var db = require("../db");
 
+var database = require("../database");
+
 module.exports = function () {
   // Configure the local strategy for use by Passport.
   //
@@ -12,22 +14,24 @@ module.exports = function () {
   // will be set at `req.user` in route handlers after authentication.
   passport.use(
     new Strategy(function (username, password, cb) {
-      db.get(
-        "SELECT rowid AS id, * FROM users WHERE username = ?",
+      database.query(
+        "SELECT * FROM users WHERE username = $1",
         [username],
-        function (err, row) {
+        function (err, result) {
           if (err) {
             return cb(err);
           }
-          if (!row) {
+          if (!result) {
             return cb(null, false, {
               message: "Incorrect username or password.",
             });
           }
+          console.log(result);
+          let userData = result.rows[0];
 
           crypto.pbkdf2(
             password,
-            row.salt,
+            userData.salt,
             10000,
             32,
             "sha256",
@@ -36,7 +40,10 @@ module.exports = function () {
                 return cb(err);
               }
               if (
-                !crypto.timingSafeEqual(row.hashed_password, hashedPassword)
+                !crypto.timingSafeEqual(
+                  userData.hashed_password,
+                  hashedPassword
+                )
               ) {
                 return cb(null, false, {
                   message: "Incorrect username or password.",
@@ -44,9 +51,9 @@ module.exports = function () {
               }
 
               var user = {
-                id: row.id.toString(),
-                username: row.username,
-                displayName: row.name,
+                id: userData.id.toString(),
+                username: userData.username,
+                displayName: userData.name,
               };
               return cb(null, user);
             }
