@@ -18,8 +18,11 @@ const FileUpload = (props) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
+
+    console.log(props);
     formData.append("file", file);
     formData.append("path", props.path);
+    formData.append("songName", props.songName);
 
     try {
       const res = await axios.post("/aws/upload", formData, {

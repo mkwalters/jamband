@@ -49,7 +49,7 @@ const Discover = () => {
             component={Link}
             to={"/song/" + song.id.toString()}
           >
-            go to {song.s3key}
+            go to {song.name}
           </Button>
           <AudioPlayer
             src={song.s3key}
