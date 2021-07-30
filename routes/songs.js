@@ -14,9 +14,22 @@ router.get("/", function (req, res, next) {
     // TODO: Handle undefined row.
 
     console.log(result.rows);
-    debugger;
     res.json({ data: result.rows });
   });
 });
 
+router.get("/:id", function (req, res) {
+  database.query(
+    "SELECT * FROM songs WHERE id = $1",
+    [req.params.id],
+    function (err, result) {
+      if (err) {
+        return next(err);
+      }
+
+      console.log(result.rows);
+      res.json({ data: result.rows });
+    }
+  );
+});
 module.exports = router;

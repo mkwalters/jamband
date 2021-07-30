@@ -6,6 +6,7 @@ import Info from "./views/info";
 import Signup from "./views/signup";
 import Login from "./views/login";
 import Discover from "./views/discover";
+import Song from "./views/song";
 import Create from "./views/create";
 import { makeStyles } from "@material-ui/core/styles";
 import { UserContext } from "./UserContext";
@@ -99,6 +100,9 @@ export default function App() {
             </Route>
             <Route path="/create">
               <Create />
+            </Route>
+            <Route path="/song/:id">
+              <Song />
             </Route>
             <Route path="/">
               <Home />

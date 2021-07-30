@@ -2,12 +2,12 @@ import React, { useState, useContext, useEffect } from "react";
 import { UserContext } from "../UserContext";
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
+import { Button } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 const Discover = () => {
   const { user, setUser } = useContext(UserContext);
   const [songs, setSongs] = useState([]);
-
-  const s3Domain = "https://jamband.s3.us-west-1.amazonaws.com/";
 
   const getUser = async () => {
     fetch("/getUser").then((data) => {
@@ -44,9 +44,15 @@ const Discover = () => {
       <p>{JSON.stringify(songs)}</p>
       {songs.map((song, index) => (
         <div key={index}>
-          <p>{song.s3key}</p>
+          <Button
+            variant="outlined"
+            component={Link}
+            to={"/song/" + song.id.toString()}
+          >
+            go to {song.s3key}
+          </Button>
           <AudioPlayer
-            src={s3Domain + song.s3key}
+            src={song.s3key}
             onPlay={(e) => console.log("onPlay")}
             // other props here
           />

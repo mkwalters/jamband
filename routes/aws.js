@@ -16,11 +16,12 @@ const s3 = new AWS.S3({
   secretAccessKey: SECRET,
 });
 
-const uploadFile = (fileName) => {
+const uploadFile = (fileName, path) => {
   // Read content from the file
   const fileContent = fs.readFileSync(fileName);
-  const s3key = uuidv4() + ".mp3";
-  console.log(s3key);
+  const s3key = uuidv4();
+  const s3DatabaseKey =
+    "https://jamband.s3.us-west-1.amazonaws.com/" + s3key + ".mp3";
   // Setting up S3 upload parameters
   const params = {
     Bucket: BUCKET_NAME,
@@ -35,7 +36,10 @@ const uploadFile = (fileName) => {
     }
     console.log(`File uploaded successfully. ${data.Location}`);
 
-    database.query("INSERT INTO songs (s3Key) VALUES ($1)", [s3key]);
+    database.query("INSERT INTO songs (s3Key, path) VALUES ($1, $2)", [
+      s3DatabaseKey,
+      path,
+    ]);
     // db.run("INSERT INTO songs (s3ID) VALUES (" + s3key + ")");
   });
 };
@@ -45,13 +49,17 @@ router.post("/upload", (req, res) => {
     return res.status(400).json({ msg: "No file uploaded" });
   }
   const file = req.files.file;
+  const path = req.body.path;
+
+  console.log(req.body);
+
   file.mv(`${__dirname}/../uploads/${file.name}`, (err) => {
     if (err) {
       console.error(err);
       return res.status(500).send(err);
     }
 
-    uploadFile(`${__dirname}/../uploads/${file.name}`, file.name);
+    uploadFile(`${__dirname}/../uploads/${file.name}`, path);
     res.json({ fileName: file.name, filePath: `/../uploads/${file.name}` });
   });
 });

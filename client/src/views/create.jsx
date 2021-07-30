@@ -9,7 +9,7 @@ const Create = () => {
     <div className="App">
       <p>{JSON.stringify(user)}</p>
       <p>lisv</p>
-      <FileUpload />
+      <FileUpload path="root" />
     </div>
   );
 };
