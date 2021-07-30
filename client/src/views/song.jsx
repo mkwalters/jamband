@@ -3,6 +3,7 @@ import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import { Link, useParams } from "react-router-dom";
 import { Button } from "@material-ui/core";
+import FileUpload from "../components/FileUpload";
 
 const Song = () => {
   const { id } = useParams();
@@ -35,7 +36,7 @@ const Song = () => {
       <Button variant="outlined" onClick={toggleRemixing}>
         remix
       </Button>
-      {remixing && <p>upload</p>}
+      {remixing && <FileUpload previousPath={songData.path} />}
     </div>
   );
 };

@@ -7,16 +7,16 @@ const Create = () => {
 
   const [songName, setSongName] = useState("");
 
-  const changeSongName = (event) => {
-    setSongName(event.target.value);
-  };
+  // const changeSongName = (event) => {
+  //   setSongName(event.target.value);
+  // };
 
   return (
     <div className="App">
       <p>{JSON.stringify(user)}</p>
       <p>song name:</p>
-      <input type="text" value={songName} onChange={changeSongName} />
-      <FileUpload path="root" songName={songName} />
+      {/* <input type="text" value={songName} onChange={changeSongName} /> */}
+      <FileUpload previousPath="root" />
     </div>
   );
 };

@@ -16,7 +16,7 @@ const s3 = new AWS.S3({
   secretAccessKey: SECRET,
 });
 
-const uploadFile = (fileName, path, songName) => {
+const uploadFile = (fileName, previousPath, songName) => {
   // Read content from the file
   const fileContent = fs.readFileSync(fileName);
   const s3key = uuidv4();
@@ -35,13 +35,18 @@ const uploadFile = (fileName, path, songName) => {
     }
     console.log(`File uploaded successfully. ${data.Location}`);
 
+    let path = previousPath;
+    if (path !== "root") {
+      path += ".";
+      path += "remix";
+    }
+
     console.log(path, songName);
 
     database.query(
       "INSERT INTO songs (s3Key, path, name) VALUES ($1, $2, $3)",
       [s3DatabaseKey, path, songName]
     );
-    // db.run("INSERT INTO songs (s3ID) VALUES (" + s3key + ")");
   });
 };
 
@@ -49,8 +54,10 @@ router.post("/upload", (req, res) => {
   if (req.files === null) {
     return res.status(400).json({ msg: "No file uploaded" });
   }
+
+  console.log(req.body);
   const file = req.files.file;
-  const path = req.body.path;
+  const path = req.body.previousPath;
   const songName = req.body.songName;
 
   console.log(req.body);

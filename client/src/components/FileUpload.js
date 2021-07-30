@@ -9,20 +9,24 @@ const FileUpload = (props) => {
   const [uploadedFile, setUploadedFile] = useState({});
   const [message, setMessage] = useState("");
   const [uploadPercentage, setUploadPercentage] = useState(0);
+  const [songName, setSongName] = useState("");
 
   const onChange = (e) => {
     setFile(e.target.files[0]);
     setFilename(e.target.files[0].name);
   };
 
+  const changeSongName = (event) => {
+    setSongName(event.target.value);
+  };
+
   const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
 
-    console.log(props);
     formData.append("file", file);
-    formData.append("path", props.path);
-    formData.append("songName", props.songName);
+    formData.append("previousPath", props.previousPath);
+    formData.append("songName", songName);
 
     try {
       const res = await axios.post("/aws/upload", formData, {
@@ -61,6 +65,7 @@ const FileUpload = (props) => {
       {message ? <Message msg={message} /> : null}
       <form onSubmit={onSubmit}>
         <div className="custom-file mb-4">
+          <input type="text" value={songName} onChange={changeSongName} />
           <input
             type="file"
             className="custom-file-input"
