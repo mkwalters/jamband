@@ -79,7 +79,7 @@ const Song = () => {
         remix
       </Button>
       {remixing && <FileUpload previousPath={songData.path} />}
-
+      <p>{songData.path}</p>
       <TreeView
         className={classes.root}
         defaultCollapseIcon={<ExpandMoreIcon />}

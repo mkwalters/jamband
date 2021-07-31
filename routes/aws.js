@@ -19,7 +19,7 @@ const s3 = new AWS.S3({
 const uploadFile = (fileName, previousPath, songName) => {
   // Read content from the file
   const fileContent = fs.readFileSync(fileName);
-  const s3key = uuidv4();
+  const s3key = uuidv4().split("-").join("");
   const s3DatabaseKey = "https://jamband.s3.us-west-1.amazonaws.com/" + s3key;
   // Setting up S3 upload parameters
   const params = {
@@ -36,10 +36,10 @@ const uploadFile = (fileName, previousPath, songName) => {
     console.log(`File uploaded successfully. ${data.Location}`);
 
     let path = previousPath;
-    if (path !== "root") {
+    if (path.length > 0) {
       path += ".";
-      path += "remix";
     }
+    path += s3key;
 
     console.log(path, songName);
 
