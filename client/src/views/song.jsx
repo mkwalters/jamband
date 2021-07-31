@@ -44,6 +44,7 @@ const Song = () => {
 
   const [songData, setSongData] = useState([]);
   const [remixing, setRemixing] = useState(false);
+  const [familyTree, setFamilyTree] = useState([]);
 
   const toggleRemixing = () => {
     setRemixing(remixing ? false : true);
@@ -62,6 +63,13 @@ const Song = () => {
       data.json().then((json) => {
         console.log(json.data[0]);
         setSongData(json.data[0]);
+
+        fetch(`/songs/getTree/${json.data[0].path}`).then((data) => {
+          data.json().then((json) => {
+            console.log(json.data);
+            setFamilyTree(json.data);
+          });
+        });
       });
     });
   }, []);
@@ -80,6 +88,7 @@ const Song = () => {
       </Button>
       {remixing && <FileUpload previousPath={songData.path} />}
       <p>{songData.path}</p>
+      <p>{JSON.stringify(familyTree)}</p>
       <TreeView
         className={classes.root}
         defaultCollapseIcon={<ExpandMoreIcon />}

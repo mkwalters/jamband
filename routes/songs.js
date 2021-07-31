@@ -17,6 +17,28 @@ router.get("/", function (req, res, next) {
     res.json({ data: result.rows });
   });
 });
+//"*." + req.params.node + ".*"
+router.get("/getTree/:node", function (req, res, next) {
+  console.log("getting tree");
+  console.log(req.params.node);
+  console.log(
+    `SELECT path FROM songs WHERE path ~ '${"*." + req.params.node + ".*"}'`
+  );
+  database.query(
+    `SELECT path FROM songs WHERE path ~ '${"*." + req.params.node + ".*"}'`,
+    [],
+    function (err, result) {
+      if (err) {
+        return next(err);
+      }
+
+      // TODO: Handle undefined row.
+
+      console.log(result.rows);
+      res.json({ data: result.rows });
+    }
+  );
+});
 
 router.get("/:id", function (req, res) {
   database.query(
