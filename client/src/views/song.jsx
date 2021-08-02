@@ -49,17 +49,18 @@ const Song = () => {
         var wantedNode = chain[j];
         var lastNode = currentNode;
         for (var k = 0; k < currentNode.length; k++) {
-          if (currentNode[k].name == wantedNode) {
+          if (currentNode[k].pathName == wantedNode) {
             currentNode = currentNode[k].children;
             break;
           }
         }
         // If we couldn't find an item in this list of children
-        // that has the right name, create one:
+        // that has the right pathName , create one:
         if (lastNode == currentNode) {
           var newNode = (currentNode[k] = {
             id: input[i].id,
-            name: wantedNode,
+            name: input[i].name,
+            pathName: wantedNode,
             children: [],
           });
           currentNode = newNode.children;
