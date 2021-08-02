@@ -59,12 +59,16 @@ const Song = () => {
   );
 
   useEffect(() => {
+    console.log("mounted");
     fetch(`/songs/${id}`).then((data) => {
       data.json().then((json) => {
         console.log(json.data[0]);
         setSongData(json.data[0]);
 
-        fetch(`/songs/getTree/${json.data[0].path}`).then((data) => {
+        let originalAncestor = json.data[0].path.split(".")[0];
+        console.log("original ancestor: ", originalAncestor);
+
+        fetch(`/songs/getTree/${originalAncestor}`).then((data) => {
           data.json().then((json) => {
             console.log(json.data);
             setFamilyTree(json.data);

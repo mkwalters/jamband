@@ -18,14 +18,18 @@ router.get("/", function (req, res, next) {
   });
 });
 //"*." + req.params.node + ".*"
-router.get("/getTree/:node", function (req, res, next) {
+router.get("/getTree/:furthestAncestor", function (req, res, next) {
   console.log("getting tree");
-  console.log(req.params.node);
+  console.log(req.params.furthestAncestor);
   console.log(
-    `SELECT path FROM songs WHERE path ~ '${"*." + req.params.node + ".*"}'`
+    `SELECT path FROM songs WHERE path ~ '${
+      "*." + req.params.furthestAncestor + ".*"
+    }'`
   );
   database.query(
-    `SELECT path FROM songs WHERE path ~ '${"*." + req.params.node + ".*"}'`,
+    `SELECT * FROM songs WHERE path ~ '${
+      "*." + req.params.furthestAncestor + ".*"
+    }'`,
     [],
     function (err, result) {
       if (err) {
