@@ -40,6 +40,35 @@ const Song = () => {
     ],
   };
 
+  let transformedData = (input) => {
+    var output = [];
+    for (var i = 0; i < input.length; i++) {
+      var chain = input[i].path.split(".");
+      var currentNode = output;
+      for (var j = 0; j < chain.length; j++) {
+        var wantedNode = chain[j];
+        var lastNode = currentNode;
+        for (var k = 0; k < currentNode.length; k++) {
+          if (currentNode[k].name == wantedNode) {
+            currentNode = currentNode[k].children;
+            break;
+          }
+        }
+        // If we couldn't find an item in this list of children
+        // that has the right name, create one:
+        if (lastNode == currentNode) {
+          var newNode = (currentNode[k] = {
+            id: input[i].id,
+            name: wantedNode,
+            children: [],
+          });
+          currentNode = newNode.children;
+        }
+      }
+    }
+    return output[0];
+  };
+
   const { id } = useParams();
 
   const [songData, setSongData] = useState([]);
@@ -71,7 +100,7 @@ const Song = () => {
         fetch(`/songs/getTree/${originalAncestor}`).then((data) => {
           data.json().then((json) => {
             console.log(json.data);
-            setFamilyTree(json.data);
+            setFamilyTree(transformedData(json.data));
           });
         });
       });
@@ -99,7 +128,7 @@ const Song = () => {
         defaultExpanded={["root"]}
         defaultExpandIcon={<ChevronRightIcon />}
       >
-        {renderTree(data)}
+        {renderTree(familyTree)}
       </TreeView>
     </div>
   );
