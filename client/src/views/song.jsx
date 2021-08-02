@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AudioPlayer from "react-h5-audio-player";
-import "react-h5-audio-player/lib/styles.css";
+// import "react-h5-audio-player/lib/styles.css";
 import { Link, useParams } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import FileUpload from "../components/FileUpload";
@@ -74,6 +74,7 @@ const Song = () => {
 
   const [songData, setSongData] = useState([]);
   const [remixing, setRemixing] = useState(false);
+  const [allSongData, setAllSongData] = useState([]);
   const [familyTree, setFamilyTree] = useState([]);
 
   const toggleRemixing = () => {
@@ -101,6 +102,7 @@ const Song = () => {
         fetch(`/songs/getTree/${originalAncestor}`).then((data) => {
           data.json().then((json) => {
             console.log(json.data);
+            setAllSongData(json.data);
             setFamilyTree(transformedData(json.data));
           });
         });
@@ -108,10 +110,20 @@ const Song = () => {
     });
   }, []);
 
+  const selectFromTree = (event, value) => {
+    console.log("joe biden wake up");
+    console.log(value);
+
+    allSongData.forEach((datum) => {
+      if (datum.id === value) {
+        setSongData(datum);
+      }
+    });
+  };
+
   return (
     <div>
-      <p>song page</p>
-      {id}
+      <h1>{songData.name}</h1>
       <AudioPlayer
         src={songData.s3key}
         onPlay={(e) => console.log("onPlay")}
@@ -121,13 +133,13 @@ const Song = () => {
         remix
       </Button>
       {remixing && <FileUpload previousPath={songData.path} />}
-      <p>{songData.path}</p>
-      <p>{JSON.stringify(familyTree)}</p>
+
       <TreeView
         className={classes.root}
         defaultCollapseIcon={<ExpandMoreIcon />}
         defaultExpanded={["root"]}
         defaultExpandIcon={<ChevronRightIcon />}
+        onNodeSelect={selectFromTree}
       >
         {renderTree(familyTree)}
       </TreeView>
