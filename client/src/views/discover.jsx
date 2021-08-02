@@ -67,23 +67,34 @@ const Discover = () => {
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Dessert (100g serving)</TableCell>
-              <TableCell align="right">Calories</TableCell>
-              <TableCell align="right">Fat&nbsp;(g)</TableCell>
-              <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-              <TableCell align="right">Protein&nbsp;(g)</TableCell>
+              <TableCell>Song Name</TableCell>
+              <TableCell>audio player</TableCell>
+              <TableCell>author</TableCell>
+              <TableCell></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <TableRow key={row.name}>
+            {songs.map((song, index) => (
+              <TableRow key={song.name}>
+                <TableCell>{song.name}</TableCell>
                 <TableCell component="th" scope="row">
-                  {row.name}
+                  <AudioPlayer
+                    src={song.s3key}
+                    onPlay={(e) => console.log("onPlay")}
+                    header={song.name}
+                    // other props here
+                  />
                 </TableCell>
-                <TableCell align="right">{row.calories}</TableCell>
-                <TableCell align="right">{row.fat}</TableCell>
-                <TableCell align="right">{row.carbs}</TableCell>
-                <TableCell align="right">{row.protein}</TableCell>
+                <TableCell></TableCell>
+                <TableCell>
+                  <Button
+                    variant="outlined"
+                    component={Link}
+                    to={"/song/" + song.id.toString()}
+                  >
+                    Remix >
+                  </Button>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
