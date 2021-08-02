@@ -62,7 +62,7 @@ export default function App() {
                 Create
               </Button>
               <Typography variant="h6" className={classes.title}>
-                News
+                Jamband
               </Typography>
 
               {true && (

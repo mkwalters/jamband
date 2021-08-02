@@ -36,12 +36,6 @@ const Discover = () => {
 
   return (
     <div className="App">
-      <p>discover</p>
-      <button onClick={getUser}>grab the user</button>
-      <p>{JSON.stringify(user)}</p>
-      <button onClick={getUser}>change</button>
-
-      <p>{JSON.stringify(songs)}</p>
       {songs.map((song, index) => (
         <div key={index}>
           <Button
@@ -54,6 +48,7 @@ const Discover = () => {
           <AudioPlayer
             src={song.s3key}
             onPlay={(e) => console.log("onPlay")}
+            header={song.name}
             // other props here
           />
         </div>
