@@ -3,6 +3,7 @@ import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { UserContext } from "../UserContext";
 import { makeStyles } from "@material-ui/core/styles";
+var _ = require("lodash");
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,6 +25,15 @@ const Appbar = () => {
     fetch("/logout");
     setUser({});
   };
+
+  const userLoggedin = () => {
+    if (_.keys(user).length === 0 || user === null) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -43,17 +53,23 @@ const Appbar = () => {
             Jamband
           </Typography>
 
-          <Button variant="outlined" component={Link} to={"/login"}>
-            Log in
-          </Button>
+          {_.keys(user).length === 0 && (
+            <div>
+              <Button variant="outlined" component={Link} to={"/login"}>
+                Log in
+              </Button>
 
-          <Button variant="outlined" component={Link} to={"/signup"}>
-            Sign up
-          </Button>
+              <Button variant="outlined" component={Link} to={"/signup"}>
+                Sign up
+              </Button>
+            </div>
+          )}
 
-          <Button variant="outlined" component={Link} onClick={logout}>
-            Logout
-          </Button>
+          {_.keys(user).length > 0 && (
+            <Button variant="outlined" component={Link} onClick={logout}>
+              Logout
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
     </div>
