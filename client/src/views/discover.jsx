@@ -92,7 +92,7 @@ const Discover = () => {
                     component={Link}
                     to={"/song/" + song.id.toString()}
                   >
-                    Remix >
+                    {"Remix >"}
                   </Button>
                 </TableCell>
               </TableRow>
