@@ -2,15 +2,46 @@ import React, { Fragment, useState } from "react";
 import Message from "./Message";
 import Progress from "./Progress";
 import axios from "axios";
+import Button from "@material-ui/core/Button";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
+import { makeStyles } from "@material-ui/core/styles";
 var _ = require("lodash");
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: "100%",
+    "& > * + *": {
+      marginTop: theme.spacing(2),
+    },
+  },
+}));
+
 const FileUpload = (props) => {
+  const classes = useStyles();
+
+  const [open, setOpen] = React.useState(false);
   const [file, setFile] = useState("");
   const [filename, setFilename] = useState("Choose File");
   const [uploadedFile, setUploadedFile] = useState({});
   const [message, setMessage] = useState("");
   const [uploadPercentage, setUploadPercentage] = useState(0);
   const [songName, setSongName] = useState("");
+
+  const openSnackBar = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
 
   const onChange = (e) => {
     setFile(e.target.files[0]);
@@ -23,7 +54,8 @@ const FileUpload = (props) => {
 
   const onSubmit = async (e) => {
     if (_.keys(props.user).length === 0 || props.user == null) {
-      console.log("must be logging in");
+      openSnackBar();
+      return;
     }
     e.preventDefault();
     const formData = new FormData();
@@ -67,6 +99,12 @@ const FileUpload = (props) => {
   return (
     <Fragment>
       {message ? <Message msg={message} /> : null}
+
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="warning">
+          Must be logged in to upload files
+        </Alert>
+      </Snackbar>
       <form onSubmit={onSubmit}>
         <div className="custom-file mb-4">
           <input type="text" value={songName} onChange={changeSongName} />
