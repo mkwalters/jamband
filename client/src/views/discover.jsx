@@ -18,7 +18,6 @@ const useStyles = makeStyles({
     minWidth: 650,
   },
 });
-
 const Discover = () => {
   const classes = useStyles();
   const { user, setUser } = useContext(UserContext);

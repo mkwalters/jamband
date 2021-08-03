@@ -38,9 +38,9 @@ const Appbar = () => {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <Button variant="outlined" component={Link} to={"/discover"}>
-            Discover
-          </Button>
+          <Typography variant="h6" className={classes.menuButton}>
+            <Link to={"/"}>Jamband</Link>
+          </Typography>
           <Button
             variant="outlined"
             component={Link}
@@ -49,9 +49,7 @@ const Appbar = () => {
           >
             Create
           </Button>
-          <Typography variant="h6" className={classes.title}>
-            Jamband
-          </Typography>
+          <Typography variant="h6" className={classes.title}></Typography>
 
           {_.keys(user).length === 0 && (
             <div>

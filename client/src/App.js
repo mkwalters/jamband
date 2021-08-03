@@ -56,9 +56,6 @@ export default function App() {
             <Route path="/login">
               <Login />
             </Route>
-            <Route path="/discover">
-              <Discover />
-            </Route>
             <Route path="/create">
               <Create />
             </Route>
@@ -66,7 +63,7 @@ export default function App() {
               <Song />
             </Route>
             <Route path="/">
-              <Home />
+              <Discover />
             </Route>
           </Switch>
         </UserContext.Provider>
