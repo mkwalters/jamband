@@ -2,6 +2,7 @@ import React, { Fragment, useState } from "react";
 import Message from "./Message";
 import Progress from "./Progress";
 import axios from "axios";
+var _ = require("lodash");
 
 const FileUpload = (props) => {
   const [file, setFile] = useState("");
@@ -21,6 +22,9 @@ const FileUpload = (props) => {
   };
 
   const onSubmit = async (e) => {
+    if (_.keys(props.user).length === 0 || props.user == null) {
+      console.log("must be logging in");
+    }
     e.preventDefault();
     const formData = new FormData();
 
