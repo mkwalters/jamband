@@ -6,6 +6,7 @@ import Button from "@material-ui/core/Button";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import { makeStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
 var _ = require("lodash");
 
 function Alert(props) {
@@ -26,7 +27,7 @@ const FileUpload = (props) => {
 
   const [open, setOpen] = React.useState(false);
   const [file, setFile] = useState("");
-  const [filename, setFilename] = useState("Choose File");
+  const [filename, setFilename] = useState("");
   const [uploadedFile, setUploadedFile] = useState({});
   const [message, setMessage] = useState("");
   const [uploadPercentage, setUploadPercentage] = useState(0);
@@ -108,25 +109,32 @@ const FileUpload = (props) => {
       </Snackbar>
       <form onSubmit={onSubmit}>
         <div className="custom-file mb-4">
-          <input type="text" value={songName} onChange={changeSongName} />
+          {/* <input type="text" value={songName} onChange={changeSongName} /> */}
+          <TextField
+            value={songName}
+            onChange={changeSongName}
+            id="standard-basic"
+            label="Song name"
+          />
           <input
             type="file"
             className="custom-file-input"
             id="customFile"
             onChange={onChange}
+            style={{ display: "block" }}
           />
-          <label className="custom-file-label" htmlFor="customFile">
+          {/* <label className="custom-file-label" htmlFor="customFile">
             {filename}
-          </label>
+          </label> */}
+
+          <Progress percentage={uploadPercentage} />
+
+          <input
+            type="submit"
+            value="Upload"
+            className="btn btn-primary btn-block mt-4"
+          />
         </div>
-
-        <Progress percentage={uploadPercentage} />
-
-        <input
-          type="submit"
-          value="Upload"
-          className="btn btn-primary btn-block mt-4"
-        />
       </form>
       {uploadedFile ? (
         <div className="row mt-5">
