@@ -19,18 +19,6 @@ const useStyles = makeStyles({
   },
 });
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
-
 const Discover = () => {
   const classes = useStyles();
   const { user, setUser } = useContext(UserContext);
@@ -42,10 +30,6 @@ const Discover = () => {
         setUser(json);
       });
     });
-  };
-
-  const readData = () => {
-    fetch("/pgTest");
   };
 
   const getSongs = () => {
@@ -102,24 +86,6 @@ const Discover = () => {
           </TableBody>
         </Table>
       </TableContainer>
-      {/* {songs.map((song, index) => (
-        <div key={index}>
-          <Button
-            variant="outlined"
-            component={Link}
-            to={"/song/" + song.id.toString()}
-          >
-            go to {song.name}
-          </Button>
-          <AudioPlayer
-            src={song.s3key}
-            onPlay={(e) => console.log("onPlay")}
-            header={song.name}
-            // other props here
-          />
-        </div>
-      ))}
-      <button onClick={readData}>read data</button> */}
     </div>
   );
 };
