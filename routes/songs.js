@@ -6,16 +6,20 @@ var router = express.Router();
 
 /* GET users listing. */
 router.get("/", function (req, res, next) {
-  database.query("SELECT * FROM songs", [], function (err, result) {
-    if (err) {
-      return next(err);
+  database.query(
+    "SELECT * FROM songs, users WHERE author = users.id",
+    [],
+    function (err, result) {
+      if (err) {
+        return next(err);
+      }
+
+      // TODO: Handle undefined row.
+
+      console.log(result.rows);
+      res.json({ data: result.rows });
     }
-
-    // TODO: Handle undefined row.
-
-    console.log(result.rows);
-    res.json({ data: result.rows });
-  });
+  );
 });
 //"*." + req.params.node + ".*"
 router.get("/getTree/:furthestAncestor", function (req, res, next) {

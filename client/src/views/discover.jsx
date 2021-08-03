@@ -85,7 +85,9 @@ const Discover = () => {
                     // other props here
                   />
                 </TableCell>
-                <TableCell></TableCell>
+                <TableCell>
+                  <p>{song.username}</p>
+                </TableCell>
                 <TableCell>
                   <Button
                     variant="outlined"
