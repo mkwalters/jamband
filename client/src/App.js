@@ -11,6 +11,8 @@ import Create from "./views/create";
 import { makeStyles } from "@material-ui/core/styles";
 import { UserContext } from "./UserContext";
 
+import Appbar from "./components/Appbar";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -24,8 +26,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function App() {
-  const classes = useStyles();
-
   const [user, setUser] = useState(null);
   const getUser = async () => {
     fetch("/getUser").then((data) => {
@@ -39,50 +39,13 @@ export default function App() {
     setUser(getUser());
   }, []);
 
-  const logout = () => {
-    fetch("/logout");
-    setUser({});
-  };
-
   return (
     <Router>
       <div>
-        <div className={classes.root}>
-          <AppBar position="static">
-            <Toolbar>
-              <Button variant="outlined" component={Link} to={"/discover"}>
-                Discover
-              </Button>
-              <Button
-                variant="outlined"
-                component={Link}
-                to={"/create"}
-                className={classes.menuButton}
-              >
-                Create
-              </Button>
-              <Typography variant="h6" className={classes.title}>
-                Jamband
-              </Typography>
-
-              <Button variant="outlined" component={Link} to={"/login"}>
-                Log in
-              </Button>
-
-              <Button variant="outlined" component={Link} to={"/signup"}>
-                Sign up
-              </Button>
-
-              <Button variant="outlined" component={Link} onClick={logout}>
-                Logout
-              </Button>
-            </Toolbar>
-          </AppBar>
-        </div>
-
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
         <UserContext.Provider value={{ user, setUser }}>
+          <Appbar></Appbar>
           <Switch>
             <Route path="/info">
               <Info />
