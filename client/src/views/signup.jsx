@@ -2,6 +2,11 @@ import React from "react";
 // import { Link } from "react-router-dom";
 
 const Signup = () => {
+  const style = {
+    display: "block",
+    marginTop: "10px",
+    marginBottom: "10px",
+  };
   return (
     <main class="container">
       <article class="grid">
@@ -10,9 +15,19 @@ const Signup = () => {
             <h1>Sign up</h1>
           </hgroup>
           <form action="/users" method="post">
-            <input type="text" name="name" placeholder="Name" />
-            <input type="text" name="username" placeholder="Username" />
-            <input type="password" name="password" placeholder="Password" />
+            <input
+              style={style}
+              type="text"
+              name="username"
+              placeholder="Username"
+            />
+            <input
+              style={style}
+              type="password"
+              name="password"
+              placeholder="Password"
+            />
+
             <button type="submit" class="contrast">
               Sign up
             </button>

@@ -41,7 +41,7 @@ export default function App() {
 
   const logout = () => {
     fetch("/logout");
-    setUser(null);
+    setUser({});
   };
 
   return (
@@ -65,11 +65,9 @@ export default function App() {
                 Jamband
               </Typography>
 
-              {true && (
-                <Button variant="outlined" component={Link} to={"/login"}>
-                  Log in
-                </Button>
-              )}
+              <Button variant="outlined" component={Link} to={"/login"}>
+                Log in
+              </Button>
 
               <Button variant="outlined" component={Link} to={"/signup"}>
                 Sign up
