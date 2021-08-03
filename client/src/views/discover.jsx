@@ -100,7 +100,7 @@ const Discover = () => {
           </TableBody>
         </Table>
       </TableContainer>
-      {songs.map((song, index) => (
+      {/* {songs.map((song, index) => (
         <div key={index}>
           <Button
             variant="outlined"
@@ -117,7 +117,7 @@ const Discover = () => {
           />
         </div>
       ))}
-      <button onClick={readData}>read data</button>
+      <button onClick={readData}>read data</button> */}
     </div>
   );
 };

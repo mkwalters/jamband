@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import AudioPlayer from "react-h5-audio-player";
 // import "react-h5-audio-player/lib/styles.css";
 import { Link, useParams } from "react-router-dom";
@@ -8,6 +8,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { TreeView, TreeItem } from "@material-ui/lab";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { UserContext } from "../UserContext";
 
 const useStyles = makeStyles({
   root: {
@@ -19,26 +20,7 @@ const useStyles = makeStyles({
 
 const Song = () => {
   const classes = useStyles();
-  const data = {
-    id: "root",
-    name: "Parent",
-    children: [
-      {
-        id: "1",
-        name: "Child - 1",
-      },
-      {
-        id: "3",
-        name: "Child - 3",
-        children: [
-          {
-            id: "4",
-            name: "Child - 4",
-          },
-        ],
-      },
-    ],
-  };
+  const { user, setUser } = useContext(UserContext);
 
   let transformedData = (input) => {
     var output = [];
@@ -132,7 +114,7 @@ const Song = () => {
       <Button variant="outlined" onClick={toggleRemixing}>
         remix
       </Button>
-      {remixing && <FileUpload previousPath={songData.path} />}
+      {remixing && <FileUpload previousPath={songData.path} user={user} />}
 
       <TreeView
         className={classes.root}
