@@ -5,23 +5,37 @@ import "react-h5-audio-player/lib/styles.css";
 import { Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
+
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles({
-  table: {
-    minWidth: 650,
+  root: {
+    minWidth: 700,
+    marginTop: "12px",
+    marginBottom: "12px",
+    backgroundColor: "#FFFDD0",
+  },
+  bullet: {
+    display: "inline-block",
+    margin: "0 2px",
+    transform: "scale(0.8)",
+  },
+  title: {
+    fontSize: 18,
+  },
+  author: {
+    fontSize: 13,
   },
 });
 const Discover = () => {
   const classes = useStyles();
   const { user, setUser } = useContext(UserContext);
   const [songs, setSongs] = useState([]);
+
+  const bull = <span className={classes.bullet}>•</span>;
 
   const getUser = async () => {
     fetch("/getUser").then((data) => {
@@ -46,45 +60,45 @@ const Discover = () => {
 
   return (
     <div className="App">
-      <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Song Name</TableCell>
-              <TableCell>audio player</TableCell>
-              <TableCell>author</TableCell>
-              <TableCell></TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {songs.map((song, index) => (
-              <TableRow key={song.name}>
-                <TableCell>{song.name}</TableCell>
-                <TableCell component="th" scope="row">
-                  <AudioPlayer
-                    src={song.s3key}
-                    onPlay={(e) => console.log("onPlay")}
-                    header={song.name}
-                    // other props here
-                  />
-                </TableCell>
-                <TableCell>
-                  <p>{song.username}</p>
-                </TableCell>
-                <TableCell>
-                  <Button
-                    variant="outlined"
-                    component={Link}
-                    to={"/song/" + song.song_id.toString()}
-                  >
-                    {"Remix >"}
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <div>
+        {songs.map((song, index) => (
+          <span style={{ display: "flex", justifyContent: "center" }}>
+            <Card className={classes.root}>
+              <CardContent>
+                <Typography
+                  className={classes.title}
+                  color="textPrimary"
+                  gutterBottom
+                >
+                  {song.name}
+                </Typography>
+                {/* <Typography
+                  className={classes.author}
+                  color="textSecondary"
+                  gutterBottom
+                >
+                  by {song.username}
+                </Typography> */}
+                <AudioPlayer
+                  src={song.s3key}
+                  onPlay={(e) => console.log("onPlay")}
+                  header={song.name}
+                  // other props here
+                />
+              </CardContent>
+              <CardActions>
+                {/* <Button
+                  variant="outlined"
+                  component={Link}
+                  to={"/song/" + song.song_id.toString()}
+                >
+                  {"Remix >"}
+                </Button> */}
+              </CardActions>
+            </Card>
+          </span>
+        ))}
+      </div>
     </div>
   );
 };
