@@ -67,7 +67,7 @@ const Appbar = () => {
             </div>
           )}
           <Typography variant="h6" className={classes.username}>
-            {user.username}
+            {_.keys(user).length > 0 && user.username}
           </Typography>
 
           {_.keys(user).length > 0 && (
