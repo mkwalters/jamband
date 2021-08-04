@@ -93,11 +93,10 @@ const Song = () => {
   }, []);
 
   const selectFromTree = (event, value) => {
-    console.log("joe biden wake up");
     console.log(value);
 
     allSongData.forEach((datum) => {
-      if (datum.id === value) {
+      if (datum.song_id === value) {
         setSongData(datum);
       }
     });
