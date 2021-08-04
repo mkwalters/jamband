@@ -8,6 +8,7 @@ var _ = require("lodash");
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    color: "#FFFDD0",
   },
   menuButton: {
     marginRight: theme.spacing(2),
