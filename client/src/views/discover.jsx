@@ -70,12 +70,23 @@ const Discover = () => {
               }
             >
               <CardContent>
+                <Link to={"/song/" + song.song_id.toString()}>
+                  <Typography
+                    className={classes.title}
+                    color="textPrimary"
+                    gutterBottom
+                    style={{ display: "inline" }}
+                  >
+                    {song.name}
+                  </Typography>
+                </Link>
                 <Typography
-                  className={classes.title}
+                  className={classes.author}
                   color="textPrimary"
                   gutterBottom
+                  style={{ display: "inline" }}
                 >
-                  {song.name}
+                  {" by " + song.username}
                 </Typography>
                 {/* <Typography
                   className={classes.author}
