@@ -10,7 +10,7 @@ let connectionString = {
 };
 
 if (env !== "development") {
-  let connectionString = {
+  connectionString = {
     connectionString: process.env.DATABASE_URL,
     ssl: { rejectUnauthorized: false },
   };
