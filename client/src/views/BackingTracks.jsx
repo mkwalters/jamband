@@ -15,6 +15,7 @@ import Paper from "@material-ui/core/Paper";
 import FileUpload from "../components/FileUpload";
 import MuiAlert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
+import "../card.css";
 var _ = require("lodash");
 
 const useStyles = makeStyles({

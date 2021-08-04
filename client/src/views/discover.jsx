@@ -5,7 +5,7 @@ import "react-h5-audio-player/lib/styles.css";
 import { Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-
+import "../card.css";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -63,7 +63,7 @@ const Discover = () => {
       <div>
         {songs.map((song, index) => (
           <span style={{ display: "flex", justifyContent: "center" }}>
-            <Card className={classes.root}>
+            <Card className={false ? classes.root : "card-selector"}>
               <CardContent>
                 <Typography
                   className={classes.title}
