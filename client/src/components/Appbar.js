@@ -41,7 +41,7 @@ const Appbar = () => {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="static" style={{ backgroundColor: "#FFFDD0" }}>
         <Toolbar>
           <Typography variant="h6" className={classes.menuButton}>
             <Link to={"/"}>Jamband</Link>

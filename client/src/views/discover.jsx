@@ -89,6 +89,7 @@ const Discover = () => {
                   src={song.s3key}
                   onPlay={(e) => setCurrentSongId(song.song_id)}
                   header={song.name}
+                  style={{ opacity: "0.5" }}
                   // other props here
                 />
               </CardContent>
