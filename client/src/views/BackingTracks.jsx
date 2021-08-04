@@ -13,17 +13,35 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import FileUpload from "../components/FileUpload";
+import MuiAlert from "@material-ui/lab/Alert";
+import Snackbar from "@material-ui/core/Snackbar";
+var _ = require("lodash");
 
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
 });
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 const BackingTracks = () => {
   const classes = useStyles();
   const { user, setUser } = useContext(UserContext);
   const [songs, setSongs] = useState([]);
   const [toggleUpload, setToggleUpload] = useState(false);
+  const [open, setOpen] = React.useState(false);
+
+  const openSnackBar = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
 
   const getUser = async () => {
     fetch("/getUser").then((data) => {
@@ -47,11 +65,22 @@ const BackingTracks = () => {
   }, []);
 
   const handleToggleUpload = () => {
+    if (_.keys(user).length === 0) {
+      openSnackBar();
+      return;
+    }
     setToggleUpload(toggleUpload ? false : true);
   };
 
   return (
     <div className="App">
+      <div className={classes.root}>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity="warning">
+            Must be logged in to upload
+          </Alert>
+        </Snackbar>
+      </div>
       <p></p>
       <Button variant="outlined" onClick={handleToggleUpload}>
         Create new backing track

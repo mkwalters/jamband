@@ -44,14 +44,6 @@ const Appbar = () => {
           <Button
             variant="outlined"
             component={Link}
-            to={"/create"}
-            className={classes.menuButton}
-          >
-            Create
-          </Button>
-          <Button
-            variant="outlined"
-            component={Link}
             to={"/backingtracks"}
             className={classes.menuButton}
           >
