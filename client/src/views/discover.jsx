@@ -62,7 +62,6 @@ const Discover = () => {
   return (
     <div className="App">
       <div>
-        <p>{currentSongId}</p>
         {songs.map((song, index) => (
           <span style={{ display: "flex", justifyContent: "center" }}>
             <Card
