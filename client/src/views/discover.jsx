@@ -34,6 +34,7 @@ const Discover = () => {
   const classes = useStyles();
   const { user, setUser } = useContext(UserContext);
   const [songs, setSongs] = useState([]);
+  const [currentSongId, setCurrentSongId] = useState(-1);
 
   const bull = <span className={classes.bullet}>•</span>;
 
@@ -61,9 +62,14 @@ const Discover = () => {
   return (
     <div className="App">
       <div>
+        <p>{currentSongId}</p>
         {songs.map((song, index) => (
           <span style={{ display: "flex", justifyContent: "center" }}>
-            <Card className={false ? classes.root : "card-selector"}>
+            <Card
+              className={
+                song.song_id === currentSongId ? "card-selector" : classes.root
+              }
+            >
               <CardContent>
                 <Typography
                   className={classes.title}
@@ -81,7 +87,7 @@ const Discover = () => {
                 </Typography> */}
                 <AudioPlayer
                   src={song.s3key}
-                  onPlay={(e) => console.log("onPlay")}
+                  onPlay={(e) => setCurrentSongId(song.song_id)}
                   header={song.name}
                   // other props here
                 />
