@@ -12,7 +12,7 @@ const Pool = require("pg").Pool;
 // if (env !== "development") {
 let connectionString = {
   connectionString: process.env.DATABASE_URL,
-  ssl: true,
+  ssl: { rejectUnauthorized: false },
 };
 // }
 const pool = new Pool(connectionString);
