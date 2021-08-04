@@ -15,6 +15,10 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
+  username: {
+    marginRight: theme.spacing(2),
+    color: "black",
+  },
 }));
 
 const Appbar = () => {
@@ -62,6 +66,9 @@ const Appbar = () => {
               </Button>
             </div>
           )}
+          <Typography variant="h6" className={classes.username}>
+            {user.username}
+          </Typography>
 
           {_.keys(user).length > 0 && (
             <Button variant="outlined" component={Link} onClick={logout}>
