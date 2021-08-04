@@ -32,12 +32,11 @@ router.post("/", function (req, res, next) {
             return next(err);
           }
 
-          console.log(result.rows);
           var user = {
             user_id: result.rows[0].user_id,
             username: req.body.username,
           };
-          console.log(user);
+
           req.login(user, function (err) {
             if (err) {
               return next(err);

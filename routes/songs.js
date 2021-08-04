@@ -16,6 +16,23 @@ router.get("/", function (req, res, next) {
 
       // TODO: Handle undefined row.
 
+      res.json({ data: result.rows });
+    }
+  );
+});
+
+router.get("/backingtracks", function (req, res, next) {
+  console.log("fetching backing trackls");
+  database.query(
+    "SELECT * FROM songs, users WHERE author = user_id and original = true",
+    [],
+    function (err, result) {
+      if (err) {
+        return next(err);
+      }
+
+      // TODO: Handle undefined row.
+
       console.log(result.rows);
       res.json({ data: result.rows });
     }

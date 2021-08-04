@@ -25,7 +25,6 @@ module.exports = function () {
               message: "Incorrect username or password.",
             });
           }
-          console.log(result);
           let userData = result.rows[0];
 
           crypto.pbkdf2(

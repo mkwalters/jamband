@@ -49,6 +49,14 @@ const Appbar = () => {
           >
             Create
           </Button>
+          <Button
+            variant="outlined"
+            component={Link}
+            to={"/backingtracks"}
+            className={classes.menuButton}
+          >
+            Backing Tracks
+          </Button>
           <Typography variant="h6" className={classes.title}></Typography>
 
           {_.keys(user).length === 0 && (
