@@ -7,7 +7,7 @@ var router = express.Router();
 /* GET users listing. */
 router.get("/", function (req, res, next) {
   database.query(
-    "SELECT * FROM songs, users WHERE author = users.id",
+    "SELECT * FROM songs, users WHERE author = user_id",
     [],
     function (err, result) {
       if (err) {
@@ -50,7 +50,7 @@ router.get("/getTree/:furthestAncestor", function (req, res, next) {
 
 router.get("/:id", function (req, res) {
   database.query(
-    "SELECT * FROM songs WHERE id = $1",
+    "SELECT * FROM songs WHERE song_id = $1",
     [req.params.id],
     function (err, result) {
       if (err) {

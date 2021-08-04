@@ -64,7 +64,8 @@ const FileUpload = (props) => {
     formData.append("file", file);
     formData.append("previousPath", props.previousPath);
     formData.append("songName", songName);
-    formData.append("authorId", props.user.id);
+    formData.append("authorId", props.user.user_id);
+    formData.append("original", props.original);
 
     try {
       const res = await axios.post("/aws/upload", formData, {

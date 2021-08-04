@@ -15,7 +15,7 @@ const Create = () => {
     <div className="App">
       <p>{JSON.stringify(user)}</p>
       {/* <input type="text" value={songName} onChange={changeSongName} /> */}
-      <FileUpload previousPath="" user={user} />
+      <FileUpload previousPath="" user={user} original={true} />
     </div>
   );
 };

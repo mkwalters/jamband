@@ -40,7 +40,7 @@ const Song = () => {
         // that has the right pathName , create one:
         if (lastNode == currentNode) {
           var newNode = (currentNode[k] = {
-            id: input[i].id,
+            id: input[i].song_id,
             name: input[i].name,
             pathName: wantedNode,
             children: [],
@@ -114,7 +114,9 @@ const Song = () => {
       <Button variant="outlined" onClick={toggleRemixing}>
         remix
       </Button>
-      {remixing && <FileUpload previousPath={songData.path} user={user} />}
+      {remixing && (
+        <FileUpload previousPath={songData.path} user={user} original={false} />
+      )}
 
       <TreeView
         className={classes.root}

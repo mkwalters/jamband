@@ -75,7 +75,7 @@ const Discover = () => {
                   <Button
                     variant="outlined"
                     component={Link}
-                    to={"/song/" + song.id.toString()}
+                    to={"/song/" + song.song_id.toString()}
                   >
                     {"Remix >"}
                   </Button>

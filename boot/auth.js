@@ -50,7 +50,7 @@ module.exports = function () {
               }
 
               var user = {
-                id: userData.id.toString(),
+                user_id: userData.user_id.toString(),
                 username: userData.username,
                 displayName: userData.name,
               };
@@ -71,7 +71,7 @@ module.exports = function () {
   // deserializing.
   passport.serializeUser(function (user, cb) {
     process.nextTick(function () {
-      cb(null, { id: user.id, username: user.username });
+      cb(null, { user_id: user.user_id, username: user.username });
     });
   });
 

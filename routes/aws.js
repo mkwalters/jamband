@@ -16,7 +16,7 @@ const s3 = new AWS.S3({
   secretAccessKey: SECRET,
 });
 
-const uploadFile = (fileName, previousPath, songName, authorId) => {
+const uploadFile = (fileName, previousPath, songName, authorId, original) => {
   // Read content from the file
   const fileContent = fs.readFileSync(fileName);
   const s3key = uuidv4().split("-").join("");
@@ -44,8 +44,8 @@ const uploadFile = (fileName, previousPath, songName, authorId) => {
     console.log(path, songName);
 
     database.query(
-      "INSERT INTO songs (s3Key, path, name, author) VALUES ($1, $2, $3, $4)",
-      [s3DatabaseKey, path, songName, authorId]
+      "INSERT INTO songs (s3Key, path, name, author, original) VALUES ($1, $2, $3, $4, $5)",
+      [s3DatabaseKey, path, songName, authorId, original]
     );
   });
 };
@@ -60,6 +60,7 @@ router.post("/upload", (req, res) => {
   const path = req.body.previousPath;
   const songName = req.body.songName;
   const authorId = req.body.authorId;
+  const original = req.body.original;
 
   console.log(req.body);
 
@@ -73,7 +74,8 @@ router.post("/upload", (req, res) => {
       `${__dirname}/../uploads/${file.name}`,
       path,
       songName,
-      authorId
+      authorId,
+      original
     );
     res.json({ fileName: file.name, filePath: `/../uploads/${file.name}` });
   });

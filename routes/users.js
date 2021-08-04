@@ -24,8 +24,8 @@ router.post("/", function (req, res, next) {
 
       database
         .query(
-          "INSERT INTO users (username, hashed_password, salt, name) VALUES ($1, $2, $3, $4) RETURNING id",
-          [req.body.username, hashedPassword, salt, req.body.name]
+          "INSERT INTO users (username, hashed_password, salt) VALUES ($1, $2, $3) RETURNING user_id",
+          [req.body.username, hashedPassword, salt]
         )
         .then((result) => {
           if (err) {
@@ -34,9 +34,8 @@ router.post("/", function (req, res, next) {
 
           console.log(result.rows);
           var user = {
-            id: result.rows[0].id,
+            user_id: result.rows[0].user_id,
             username: req.body.username,
-            displayName: req.body.name,
           };
           console.log(user);
           req.login(user, function (err) {
