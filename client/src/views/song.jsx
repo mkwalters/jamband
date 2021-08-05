@@ -10,12 +10,30 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { UserContext } from "../UserContext";
 
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import Typography from "@material-ui/core/Typography";
+
 const useStyles = makeStyles({
   root: {
-    height: 110,
-    flexGrow: 1,
-    maxWidth: 400,
+    minWidth: 700,
+    marginTop: "12px",
+    marginBottom: "12px",
+    backgroundColor: "#FFFDD0",
   },
+  bullet: {
+    display: "inline-block",
+    margin: "0 2px",
+    transform: "scale(0.8)",
+  },
+  title: {
+    fontSize: 18,
+  },
+  author: {
+    fontSize: 13,
+  },
+  tree: {},
 });
 
 const Song = () => {
@@ -104,28 +122,65 @@ const Song = () => {
 
   return (
     <div>
-      <h1>{songData.name}</h1>
-      <AudioPlayer
-        src={songData.s3key}
-        onPlay={(e) => console.log("onPlay")}
-        // other props here
-      />
-      <Button variant="outlined" onClick={toggleRemixing}>
-        remix
-      </Button>
-      {remixing && (
-        <FileUpload previousPath={songData.path} user={user} original={false} />
-      )}
+      <Card className={classes.root}>
+        <CardContent>
+          <Typography
+            className={classes.title}
+            color="textPrimary"
+            gutterBottom
+            style={{ display: "inline" }}
+          >
+            {songData.name}
+          </Typography>
+          <AudioPlayer
+            src={songData.s3key}
+            onPlay={(e) => console.log("onPlay")}
+            style={{ opacity: "0.5" }}
+            // other props here
+          />
+          <Button variant="outlined" onClick={toggleRemixing}>
+            remix
+          </Button>
+          {remixing && (
+            <FileUpload
+              previousPath={songData.path}
+              user={user}
+              original={false}
+            />
+          )}
+        </CardContent>
+        <CardActions>
+          {/* <Button
+                  variant="outlined"
+                  component={Link}
+                  to={"/song/" + song.song_id.toString()}
+                >
+                  {"Remix >"}
+                </Button> */}
+        </CardActions>
+      </Card>
 
-      <TreeView
-        className={classes.root}
-        defaultCollapseIcon={<ExpandMoreIcon />}
-        defaultExpanded={["root"]}
-        defaultExpandIcon={<ChevronRightIcon />}
-        onNodeSelect={selectFromTree}
-      >
-        {renderTree(familyTree)}
-      </TreeView>
+      <Card className={classes.root}>
+        <CardContent>
+          <TreeView
+            defaultCollapseIcon={<ExpandMoreIcon />}
+            defaultExpanded={["root"]}
+            defaultExpandIcon={<ChevronRightIcon />}
+            onNodeSelect={selectFromTree}
+          >
+            {renderTree(familyTree)}
+          </TreeView>
+        </CardContent>
+        <CardActions>
+          {/* <Button
+                  variant="outlined"
+                  component={Link}
+                  to={"/song/" + song.song_id.toString()}
+                >
+                  {"Remix >"}
+                </Button> */}
+        </CardActions>
+      </Card>
     </div>
   );
 };
