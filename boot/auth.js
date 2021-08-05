@@ -20,7 +20,8 @@ module.exports = function () {
           if (err) {
             return cb(err);
           }
-          if (!result) {
+
+          if (result.rows.length === 0) {
             return cb(null, false, {
               message: "Incorrect username or password.",
             });
