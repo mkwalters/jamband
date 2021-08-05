@@ -15,11 +15,34 @@ import Paper from "@material-ui/core/Paper";
 import FileUpload from "../components/FileUpload";
 import MuiAlert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import Typography from "@material-ui/core/Typography";
+import "../card.css";
 var _ = require("lodash");
 
 const useStyles = makeStyles({
-  table: {
-    minWidth: 650,
+  root: {
+    minWidth: 700,
+    marginTop: "12px",
+    marginBottom: "12px",
+    backgroundColor: "#FFFDD0",
+  },
+  bullet: {
+    display: "inline-block",
+    margin: "0 2px",
+    transform: "scale(0.8)",
+  },
+  title: {
+    fontSize: 18,
+  },
+  author: {
+    fontSize: 13,
+  },
+  upload: {
+    backgroundColor: "#FFFDD0",
+    maxWidth: "200px",
   },
 });
 function Alert(props) {
@@ -31,6 +54,7 @@ const BackingTracks = () => {
   const [songs, setSongs] = useState([]);
   const [toggleUpload, setToggleUpload] = useState(false);
   const [open, setOpen] = React.useState(false);
+  const [currentSongId, setCurrentSongId] = useState(-1);
 
   const openSnackBar = () => {
     setOpen(true);
@@ -81,53 +105,130 @@ const BackingTracks = () => {
           </Alert>
         </Snackbar>
       </div>
-      <p></p>
-      <Button variant="outlined" onClick={handleToggleUpload}>
-        Create new backing track
-      </Button>
-      {toggleUpload && (
-        <FileUpload previousPath="" user={user} original={true} />
-      )}
-      <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Song Name</TableCell>
-              <TableCell>audio player</TableCell>
-              <TableCell>author</TableCell>
-              <TableCell></TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {songs.map((song, index) => (
-              <TableRow key={song.name}>
-                <TableCell>{song.name}</TableCell>
-                <TableCell component="th" scope="row">
-                  <AudioPlayer
-                    src={song.s3key}
-                    onPlay={(e) => console.log("onPlay")}
-                    header={song.name}
-                    // other props here
-                  />
-                </TableCell>
-                <TableCell>
-                  <p>{song.username}</p>
-                </TableCell>
-                <TableCell>
-                  <Button
-                    variant="outlined"
-                    component={Link}
-                    to={"/song/" + song.song_id.toString()}
+
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <Card className={classes.upload}>
+          <CardContent>
+            <Button variant="outlined" onClick={handleToggleUpload}>
+              Create new backing track
+            </Button>
+            {toggleUpload && (
+              <FileUpload previousPath="" user={user} original={true} />
+            )}
+          </CardContent>
+        </Card>
+      </div>
+
+      <div>
+        {songs.map((song, index) => (
+          <span style={{ display: "flex", justifyContent: "center" }}>
+            <Card
+              className={
+                song.song_id === currentSongId ? "card-selector" : classes.root
+              }
+            >
+              <CardContent>
+                <Link to={"/song/" + song.song_id.toString()}>
+                  <Typography
+                    className={classes.title}
+                    color="textPrimary"
+                    gutterBottom
+                    style={{ display: "inline" }}
                   >
-                    {"Remix >"}
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+                    {song.name}
+                  </Typography>
+                </Link>
+                <Typography
+                  className={classes.author}
+                  color="textPrimary"
+                  gutterBottom
+                  style={{ display: "inline" }}
+                >
+                  {" by " + song.username}
+                </Typography>
+                {/* <Typography
+                  className={classes.author}
+                  color="textSecondary"
+                  gutterBottom
+                >
+                  by {song.username}
+                </Typography> */}
+                <AudioPlayer
+                  src={song.s3key}
+                  onPlay={(e) => setCurrentSongId(song.song_id)}
+                  style={{ opacity: "0.5" }}
+                  // other props here
+                />
+              </CardContent>
+              <CardActions>
+                {/* <Button
+                  variant="outlined"
+                  component={Link}
+                  to={"/song/" + song.song_id.toString()}
+                >
+                  {"Remix >"}
+                </Button> */}
+              </CardActions>
+            </Card>
+          </span>
+        ))}
+      </div>
     </div>
+    // <div className="App">
+    // <div className={classes.root}>
+    //   <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+    //     <Alert onClose={handleClose} severity="warning">
+    //       Must be logged in to upload
+    //     </Alert>
+    //   </Snackbar>
+    // </div>
+    // <p></p>
+    // <Button variant="outlined" onClick={handleToggleUpload}>
+    //   Create new backing track
+    // </Button>
+    // {toggleUpload && (
+    //   <FileUpload previousPath="" user={user} original={true} />
+    // )}
+    //   <TableContainer component={Paper}>
+    //     <Table className={classes.table} aria-label="simple table">
+    //       <TableHead>
+    //         <TableRow>
+    //           <TableCell>Song Name</TableCell>
+    //           <TableCell>audio player</TableCell>
+    //           <TableCell>author</TableCell>
+    //           <TableCell></TableCell>
+    //         </TableRow>
+    //       </TableHead>
+    //       <TableBody>
+    //         {songs.map((song, index) => (
+    //           <TableRow key={song.name}>
+    //             <TableCell>{song.name}</TableCell>
+    //             <TableCell component="th" scope="row">
+    //               <AudioPlayer
+    //                 src={song.s3key}
+    //                 onPlay={(e) => console.log("onPlay")}
+    //                 header={song.name}
+    //                 // other props here
+    //               />
+    //             </TableCell>
+    //             <TableCell>
+    //               <p>{song.username}</p>
+    //             </TableCell>
+    //             <TableCell>
+    //               <Button
+    //                 variant="outlined"
+    //                 component={Link}
+    //                 to={"/song/" + song.song_id.toString()}
+    //               >
+    //                 {"Remix >"}
+    //               </Button>
+    //             </TableCell>
+    //           </TableRow>
+    //         ))}
+    //       </TableBody>
+    //     </Table>
+    //   </TableContainer>
+    // </div>
   );
 };
 export default BackingTracks;
