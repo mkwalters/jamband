@@ -15,6 +15,9 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 
+import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
+import IconButton from "@material-ui/core/IconButton";
+
 const useStyles = makeStyles({
   root: {
     minWidth: 700,
@@ -120,6 +123,28 @@ const Song = () => {
     });
   };
 
+  const download = (url, name) => {
+    if (!url) {
+      throw new Error("Resource URL not provided! You need to provide one");
+    }
+
+    fetch(url)
+      .then((response) => response.blob())
+      .then((blob) => {
+        const blobURL = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = blobURL;
+        a.style = "display: none";
+
+        if (name && name.length) a.download = name;
+        document.body.appendChild(a);
+        a.click();
+      })
+      .catch(() => {
+        console.log("error");
+      });
+  };
+
   return (
     <div>
       <Card className={classes.root}>
@@ -132,14 +157,28 @@ const Song = () => {
           >
             {songData.name}
           </Typography>
+
           <AudioPlayer
             src={songData.s3key}
             onPlay={(e) => console.log("onPlay")}
             style={{ opacity: "0.5" }}
             // other props here
           />
+
+          <IconButton
+            onClick={() => {
+              download(songData.s3key, `${songData.name}.mp3`);
+            }}
+          >
+            <CloudDownloadIcon />
+          </IconButton>
+
+          {/* <a href={songData.s3key} download="filename.mp3">
+            Click to download
+          </a> */}
+
           <Button variant="outlined" onClick={toggleRemixing}>
-            remix
+            Upload a remix
           </Button>
           {remixing && (
             <FileUpload
