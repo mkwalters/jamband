@@ -78,7 +78,6 @@ const Discover = () => {
 
   return (
     <div className="App">
-      <Button onClick={pauseAllButtonsExceptCurrent}>pause first song</Button>
       <div>
         {songs.map((song, index) => (
           <span style={{ display: "flex", justifyContent: "center" }}>
