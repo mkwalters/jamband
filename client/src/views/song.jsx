@@ -17,6 +17,7 @@ import Typography from "@material-ui/core/Typography";
 
 import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
 import IconButton from "@material-ui/core/IconButton";
+import "../card.css";
 
 const useStyles = makeStyles({
   root: {
@@ -43,6 +44,7 @@ const Song = () => {
   const classes = useStyles();
   const { user, setUser } = useContext(UserContext);
   const parentNodeIds = [];
+  const [playing, setPlaying] = useState(false);
 
   let transformedData = (input) => {
     var output = [];
@@ -149,7 +151,7 @@ const Song = () => {
 
   return (
     <div>
-      <Card className={classes.root}>
+      <Card className={playing ? "card-selector" : classes.root}>
         <CardContent>
           <Typography
             className={classes.title}
@@ -162,7 +164,12 @@ const Song = () => {
 
           <AudioPlayer
             src={songData.s3key}
-            onPlay={(e) => console.log("onPlay")}
+            onPlay={(e) => {
+              setPlaying(true);
+            }}
+            onPause={(e) => {
+              setPlaying(false);
+            }}
             style={{ opacity: "0.5" }}
             // other props here
           />
