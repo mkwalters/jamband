@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { UserContext } from "../UserContext";
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
@@ -36,7 +36,7 @@ const Discover = () => {
   const [songs, setSongs] = useState([]);
   const [currentSongId, setCurrentSongId] = useState(-1);
 
-  const bull = <span className={classes.bullet}>•</span>;
+  const audioPlayers = useRef([]);
 
   const getUser = async () => {
     fetch("/getUser").then((data) => {
@@ -59,8 +59,26 @@ const Discover = () => {
     getSongs();
   }, []);
 
+  const pauseAllButtonsExceptCurrent = (currentId) => {
+    // console.log(audioPlayers.current[0].player);
+    console.log(audioPlayers.current[0].id);
+    console.log(currentId);
+    // if (audioPlayers.current[0].id !== currentId) {
+    //   audioPlayers.current[0].player.audio.current.pause();
+    // }
+
+    audioPlayers.current.forEach((aPlayer) => {
+      if (aPlayer.id !== currentId) {
+        if (aPlayer.player) {
+          aPlayer.player.audio.current.pause();
+        }
+      }
+    });
+  };
+
   return (
     <div className="App">
+      <Button onClick={pauseAllButtonsExceptCurrent}>pause first song</Button>
       <div>
         {songs.map((song, index) => (
           <span style={{ display: "flex", justifyContent: "center" }}>
@@ -97,8 +115,18 @@ const Discover = () => {
                 </Typography> */}
                 <AudioPlayer
                   src={song.s3key}
-                  onPlay={(e) => setCurrentSongId(song.song_id)}
+                  onPlay={(e) => {
+                    pauseAllButtonsExceptCurrent(song.song_id);
+                    setCurrentSongId(song.song_id);
+                  }}
                   style={{ opacity: "0.5" }}
+                  id={song.song_id}
+                  ref={(element) =>
+                    audioPlayers.current.push({
+                      id: song.song_id,
+                      player: element,
+                    })
+                  }
                   // other props here
                 />
               </CardContent>

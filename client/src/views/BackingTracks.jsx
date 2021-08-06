@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { UserContext } from "../UserContext";
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
@@ -55,6 +55,7 @@ const BackingTracks = () => {
   const [toggleUpload, setToggleUpload] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [currentSongId, setCurrentSongId] = useState(-1);
+  const audioPlayers = useRef([]);
 
   const openSnackBar = () => {
     setOpen(true);
@@ -94,6 +95,23 @@ const BackingTracks = () => {
       return;
     }
     setToggleUpload(toggleUpload ? false : true);
+  };
+
+  const pauseAllButtonsExceptCurrent = (currentId) => {
+    // console.log(audioPlayers.current[0].player);
+    console.log(audioPlayers.current[0].id);
+    console.log(currentId);
+    // if (audioPlayers.current[0].id !== currentId) {
+    //   audioPlayers.current[0].player.audio.current.pause();
+    // }
+
+    audioPlayers.current.forEach((aPlayer) => {
+      if (aPlayer.id !== currentId) {
+        if (aPlayer.player) {
+          aPlayer.player.audio.current.pause();
+        }
+      }
+    });
   };
 
   return (
@@ -155,7 +173,16 @@ const BackingTracks = () => {
                 </Typography> */}
                 <AudioPlayer
                   src={song.s3key}
-                  onPlay={(e) => setCurrentSongId(song.song_id)}
+                  onPlay={(e) => {
+                    pauseAllButtonsExceptCurrent(song.song_id);
+                    setCurrentSongId(song.song_id);
+                  }}
+                  ref={(element) =>
+                    audioPlayers.current.push({
+                      id: song.song_id,
+                      player: element,
+                    })
+                  }
                   style={{ opacity: "0.5" }}
                   // other props here
                 />
