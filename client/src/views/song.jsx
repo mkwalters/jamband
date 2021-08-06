@@ -42,6 +42,7 @@ const useStyles = makeStyles({
 const Song = () => {
   const classes = useStyles();
   const { user, setUser } = useContext(UserContext);
+  const parentNodeIds = [];
 
   let transformedData = (input) => {
     var output = [];
@@ -60,6 +61,7 @@ const Song = () => {
         // If we couldn't find an item in this list of children
         // that has the right pathName , create one:
         if (lastNode == currentNode) {
+          parentNodeIds.push(input[i].song_id);
           var newNode = (currentNode[k] = {
             id: input[i].song_id,
             name: input[i].name,
@@ -204,7 +206,7 @@ const Song = () => {
           <h3>Song ancestry </h3>
           <TreeView
             defaultCollapseIcon={<ExpandMoreIcon />}
-            defaultExpanded={["root"]}
+            defaultExpanded={parentNodeIds}
             defaultExpandIcon={<ChevronRightIcon />}
             onNodeSelect={selectFromTree}
           >
