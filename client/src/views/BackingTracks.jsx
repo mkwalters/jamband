@@ -119,7 +119,7 @@ const BackingTracks = () => {
       <div className={classes.root}>
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
           <Alert onClose={handleClose} severity="warning">
-            Must be logged in to upload
+            Please log in to upload
           </Alert>
         </Snackbar>
       </div>

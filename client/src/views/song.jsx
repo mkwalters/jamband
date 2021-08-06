@@ -14,16 +14,24 @@ import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-
+import MuiAlert from "@material-ui/lab/Alert";
+import Snackbar from "@material-ui/core/Snackbar";
 import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
 import IconButton from "@material-ui/core/IconButton";
 import "../card.css";
+var _ = require("lodash");
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const useStyles = makeStyles({
   root: {
     minWidth: 700,
     marginTop: "12px",
     marginBottom: "12px",
+    marginLeft: "12px",
+    marginRight: "12px",
     backgroundColor: "#FFFDD0",
   },
   bullet: {
@@ -83,11 +91,24 @@ const Song = () => {
   const [remixing, setRemixing] = useState(false);
   const [allSongData, setAllSongData] = useState([]);
   const [familyTree, setFamilyTree] = useState([]);
+  const [open, setOpen] = useState(false);
 
   const toggleRemixing = () => {
+    if (_.keys(user).length === 0) {
+      openSnackBar();
+      return;
+    }
     setRemixing(remixing ? false : true);
   };
-
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+  const openSnackBar = () => {
+    setOpen(true);
+  };
   const renderTree = (nodes) => (
     <TreeItem
       key={nodes.id}
@@ -158,7 +179,14 @@ const Song = () => {
 
   return (
     <div>
-      <Card className={playing ? "card-selector" : classes.root}>
+      <div className={classes.root}>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity="warning">
+            Please log in to upload
+          </Alert>
+        </Snackbar>
+      </div>
+      <Card className={playing ? "song-card-selector" : classes.root}>
         <CardContent>
           <Typography
             className={classes.title}
