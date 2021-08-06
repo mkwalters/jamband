@@ -51,7 +51,7 @@ app.use("/songs", songsRouter);
 app.use("/users", usersRouter);
 
 app.get("*", function (req, res) {
-  res.sendFile(path.join(__dirname, "build"));
+  res.sendFile(path.join(__dirname, "/client/build"));
 });
 
 module.exports = app;
