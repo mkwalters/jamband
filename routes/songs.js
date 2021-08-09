@@ -7,7 +7,52 @@ var router = express.Router();
 /* GET users listing. */
 router.get("/", function (req, res, next) {
   database.query(
-    "SELECT * FROM songs, users WHERE author = user_id",
+    `  SELECT
+      *,
+      (
+          SELECT
+              COUNT(*)
+          FROM
+              votes
+          WHERE
+              votes.song_id = songs.song_id and votes.liked = true
+      ) -
+      (
+          SELECT
+              COUNT(*)
+          FROM
+              votes
+          WHERE
+              votes.song_id = songs.song_id and votes.liked = false
+      ) as total_votes,
+      (
+        SELECT
+            liked
+        FROM
+            votes
+        WHERE
+            votes.user_id = 12 AND votes.song_id = songs.song_id     
+      ) as liked_by_current_user
+  FROM
+      songs,users
+  WHERE 
+      songs.author = users.user_id
+  ORDER BY
+      (
+          SELECT
+              COUNT(*)
+          FROM
+              votes
+          WHERE
+              votes.song_id = songs.song_id and votes.liked = true
+      ) - (
+          SELECT
+              COUNT(*)
+          FROM
+              votes
+          WHERE
+              votes.song_id = songs.song_id and votes.liked = false
+      ) DESC;`,
     [],
     function (err, result) {
       if (err) {
@@ -15,7 +60,7 @@ router.get("/", function (req, res, next) {
       }
 
       // TODO: Handle undefined row.
-
+      console.log(result.rows);
       res.json({ data: result.rows });
     }
   );
