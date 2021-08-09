@@ -31,7 +31,7 @@ RIGHT JOIN votes ON songs.song_id = votes.song_id);
 
 
 SELECT
-    *,
+    name,
     (
         SELECT
             COUNT(*)
@@ -47,7 +47,15 @@ SELECT
             votes
         WHERE
             votes.song_id = songs.song_id and votes.liked = false
-    ) as total_votes
+    ) as total_votes,
+    (
+      SELECT
+          liked
+      FROM
+          votes
+      WHERE
+          votes.user_id = 12 AND votes.song_id = song.song_id
+    )
 FROM
     songs,users
 WHERE 
