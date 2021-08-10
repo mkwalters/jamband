@@ -110,30 +110,29 @@ const FileUpload = (props) => {
       </Snackbar>
       <form onSubmit={onSubmit}>
         <div className="custom-file mb-4">
-          {/* <input type="text" value={songName} onChange={changeSongName} /> */}
           <TextField
             value={songName}
             onChange={changeSongName}
             id="standard-basic"
             label="Song name"
+            style={{ marginBottom: "10px", marginTop: "10px" }}
           />
           <input
             type="file"
-            className="custom-file-input"
+            // className="custom-file-input"
+            accept="audio/*"
             id="customFile"
             onChange={onChange}
             style={{ display: "block" }}
           />
-          {/* <label className="custom-file-label" htmlFor="customFile">
-            {filename}
-          </label> */}
 
-          <Progress percentage={uploadPercentage} />
+          {uploadPercentage > 0 && <Progress percentage={uploadPercentage} />}
 
           <input
             type="submit"
             value="Upload"
             className="btn btn-primary btn-block mt-4"
+            style={{ marginTop: "15px" }}
           />
         </div>
       </form>
