@@ -128,6 +128,9 @@ const Discover = () => {
           if (json.songId === song.song_id) {
             const newSongs = [...songs];
             console.log(json);
+            newSongs[index].total_votes = Number.parseInt(
+              newSongs[index].total_votes
+            );
 
             if (song.liked_by_current_user === false) {
               if (json.liked) {
@@ -185,7 +188,6 @@ const Discover = () => {
                     {song.name}
                   </Typography>
                 </Link>
-                <p>{JSON.stringify(song)}</p>
                 <Typography
                   className={classes.author}
                   color="textPrimary"
