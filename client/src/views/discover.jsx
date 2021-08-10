@@ -2,7 +2,6 @@ import React, { useState, useContext, useEffect, useRef } from "react";
 import { UserContext } from "../UserContext";
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
-import { Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import "../card.css";
@@ -53,7 +52,7 @@ const useStyles = makeStyles({
 });
 const Discover = () => {
   const classes = useStyles();
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [songs, setSongs] = useState([]);
   const [currentSongId, setCurrentSongId] = useState(-1);
   const [open, setOpen] = React.useState(false);

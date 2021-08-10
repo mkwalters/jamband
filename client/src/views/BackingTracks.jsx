@@ -5,13 +5,6 @@ import "react-h5-audio-player/lib/styles.css";
 import { Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
 import FileUpload from "../components/FileUpload";
 import MuiAlert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
@@ -50,7 +43,7 @@ function Alert(props) {
 }
 const BackingTracks = () => {
   const classes = useStyles();
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [songs, setSongs] = useState([]);
   const [toggleUpload, setToggleUpload] = useState(false);
   const [open, setOpen] = React.useState(false);
@@ -68,14 +61,6 @@ const BackingTracks = () => {
     setOpen(false);
   };
 
-  // const getUser = async () => {
-  //   fetch("/getUser").then((data) => {
-  //     data.json().then((json) => {
-  //       setUser(json);
-  //     });
-  //   });
-  // };
-
   const getSongs = () => {
     fetch("/songs/backingtracks").then((data) => {
       data.json().then((json) => {
@@ -85,7 +70,6 @@ const BackingTracks = () => {
   };
 
   useEffect(() => {
-    // setUser(getUser());
     getSongs();
   }, []);
 
@@ -98,12 +82,8 @@ const BackingTracks = () => {
   };
 
   const pauseAllButtonsExceptCurrent = (currentId) => {
-    // console.log(audioPlayers.current[0].player);
     console.log(audioPlayers.current[0].id);
     console.log(currentId);
-    // if (audioPlayers.current[0].id !== currentId) {
-    //   audioPlayers.current[0].player.audio.current.pause();
-    // }
 
     audioPlayers.current.forEach((aPlayer) => {
       if (aPlayer.id !== currentId) {
@@ -164,13 +144,7 @@ const BackingTracks = () => {
                 >
                   {" by " + song.username}
                 </Typography>
-                {/* <Typography
-                  className={classes.author}
-                  color="textSecondary"
-                  gutterBottom
-                >
-                  by {song.username}
-                </Typography> */}
+
                 <AudioPlayer
                   src={song.s3key}
                   onPlay={(e) => {
@@ -184,78 +158,13 @@ const BackingTracks = () => {
                     })
                   }
                   style={{ opacity: "0.5" }}
-                  // other props here
                 />
               </CardContent>
-              <CardActions>
-                {/* <Button
-                  variant="outlined"
-                  component={Link}
-                  to={"/song/" + song.song_id.toString()}
-                >
-                  {"Remix >"}
-                </Button> */}
-              </CardActions>
             </Card>
           </span>
         ))}
       </div>
     </div>
-    // <div className="App">
-    // <div className={classes.root}>
-    //   <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-    //     <Alert onClose={handleClose} severity="warning">
-    //       Must be logged in to upload
-    //     </Alert>
-    //   </Snackbar>
-    // </div>
-    // <p></p>
-    // <Button variant="outlined" onClick={handleToggleUpload}>
-    //   Create new backing track
-    // </Button>
-    // {toggleUpload && (
-    //   <FileUpload previousPath="" user={user} original={true} />
-    // )}
-    //   <TableContainer component={Paper}>
-    //     <Table className={classes.table} aria-label="simple table">
-    //       <TableHead>
-    //         <TableRow>
-    //           <TableCell>Song Name</TableCell>
-    //           <TableCell>audio player</TableCell>
-    //           <TableCell>author</TableCell>
-    //           <TableCell></TableCell>
-    //         </TableRow>
-    //       </TableHead>
-    //       <TableBody>
-    //         {songs.map((song, index) => (
-    //           <TableRow key={song.name}>
-    //             <TableCell>{song.name}</TableCell>
-    //             <TableCell component="th" scope="row">
-    //               <AudioPlayer
-    //                 src={song.s3key}
-    //                 onPlay={(e) => console.log("onPlay")}
-    //                 header={song.name}
-    //                 // other props here
-    //               />
-    //             </TableCell>
-    //             <TableCell>
-    //               <p>{song.username}</p>
-    //             </TableCell>
-    //             <TableCell>
-    //               <Button
-    //                 variant="outlined"
-    //                 component={Link}
-    //                 to={"/song/" + song.song_id.toString()}
-    //               >
-    //                 {"Remix >"}
-    //               </Button>
-    //             </TableCell>
-    //           </TableRow>
-    //         ))}
-    //       </TableBody>
-    //     </Table>
-    //   </TableContainer>
-    // </div>
   );
 };
 export default BackingTracks;
