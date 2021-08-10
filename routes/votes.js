@@ -15,28 +15,49 @@ router.put("/", function (req, res, next) {
     ])
     .then((result) => {
       if (result.rows.length > 0) {
-        console.log("need to update");
-        console.log(result.rows);
-
         if (req.body.liked === result.rows[0].liked) {
           // change value to null
-          database.query(
-            `UPDATE votes SET liked = NULL WHERE user_id = $1 and song_id = $2`,
-            [req.body.userId, req.body.songId]
-          );
+          database
+            .query(
+              `UPDATE votes SET liked = NULL WHERE user_id = $1 and song_id = $2`,
+              [req.body.userId, req.body.songId]
+            )
+            .then((result) => {
+              return res.send({
+                songId: req.body.songId,
+                userId: req.body.userId,
+                liked: null,
+              });
+            });
         } else {
           //just update value
-          database.query(
-            `UPDATE votes SET liked = $3 WHERE user_id = $1 and song_id = $2`,
-            [req.body.userId, req.body.songId, req.body.liked]
-          );
+          database
+            .query(
+              `UPDATE votes SET liked = $3 WHERE user_id = $1 and song_id = $2`,
+              [req.body.userId, req.body.songId, req.body.liked]
+            )
+            .then((result) => {
+              return res.send({
+                songId: req.body.songId,
+                userId: req.body.userId,
+                liked: req.body.liked,
+              });
+            });
         }
       } else {
         //insert value
-        database.query(
-          `INSERT INTO votes (user_id, song_id, liked) VALUES ($1, $2, $3)`,
-          [req.body.userId, req.body.songId, req.body.liked]
-        );
+        database
+          .query(
+            `INSERT INTO votes (user_id, song_id, liked) VALUES ($1, $2, $3)`,
+            [req.body.userId, req.body.songId, req.body.liked]
+          )
+          .then((result) => {
+            return res.send({
+              songId: req.body.songId,
+              userId: req.body.userId,
+              liked: req.body.liked,
+            });
+          });
       }
     });
 });

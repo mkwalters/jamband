@@ -17,6 +17,15 @@ import ThumbDownOutlinedIcon from "@material-ui/icons/ThumbDownOutlined";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import ThumbDownIcon from "@material-ui/icons/ThumbDown";
 
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
+
+var _ = require("lodash");
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 const useStyles = makeStyles({
   root: {
     minWidth: 700,
@@ -35,12 +44,31 @@ const useStyles = makeStyles({
   author: {
     fontSize: 13,
   },
+  alert: {
+    width: "100%",
+    "& > * + *": {
+      marginTop: "10px",
+    },
+  },
 });
 const Discover = () => {
   const classes = useStyles();
   const { user, setUser } = useContext(UserContext);
   const [songs, setSongs] = useState([]);
   const [currentSongId, setCurrentSongId] = useState(-1);
+  const [open, setOpen] = React.useState(false);
+
+  const openSnackBar = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   const audioPlayers = useRef([]);
 
@@ -83,6 +111,10 @@ const Discover = () => {
   };
 
   const vote = (songId, liked) => {
+    if (_.keys(user).length === 0) {
+      openSnackBar();
+      return;
+    }
     fetch("/votes", {
       method: "PUT", // *GET, POST, PUT, DELETE, etc.
       headers: {
@@ -91,14 +123,50 @@ const Discover = () => {
       },
       body: JSON.stringify({ songId, liked, userId: user.user_id }), // body data type must match "Content-Type" header
     }).then((data) => {
-      const json = data.json();
-      console.log(JSON.stringify(json));
+      data.json().then((json) => {
+        songs.forEach((song, index) => {
+          if (json.songId === song.song_id) {
+            const newSongs = [...songs];
+            console.log(json);
+
+            if (song.liked_by_current_user === false) {
+              if (json.liked) {
+                newSongs[index].total_votes += 2;
+              } else {
+                newSongs[index].total_votes += 1;
+              }
+            }
+            if (song.liked_by_current_user === null) {
+              if (json.liked) {
+                newSongs[index].total_votes += 1;
+              } else {
+                newSongs[index].total_votes -= 1;
+              }
+            }
+            if (song.liked_by_current_user === true) {
+              if (json.liked === null) {
+                newSongs[index].total_votes -= 1;
+              } else {
+                newSongs[index].total_votes -= 2;
+              }
+            }
+            newSongs[index].liked_by_current_user = json.liked;
+
+            setSongs(newSongs);
+          }
+        });
+      });
     });
   };
 
   return (
     <div className="App">
       <div>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity="warning">
+            Please log in to vote
+          </Alert>
+        </Snackbar>
         {songs.map((song, index) => (
           <span style={{ display: "flex", justifyContent: "center" }}>
             <Card
@@ -117,6 +185,7 @@ const Discover = () => {
                     {song.name}
                   </Typography>
                 </Link>
+                <p>{JSON.stringify(song)}</p>
                 <Typography
                   className={classes.author}
                   color="textPrimary"
