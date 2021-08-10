@@ -11,6 +11,12 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 
+import IconButton from "@material-ui/core/IconButton";
+import ThumbUpOutlinedIcon from "@material-ui/icons/ThumbUpOutlined";
+import ThumbDownOutlinedIcon from "@material-ui/icons/ThumbDownOutlined";
+import ThumbUpIcon from "@material-ui/icons/ThumbUp";
+import ThumbDownIcon from "@material-ui/icons/ThumbDown";
+
 const useStyles = makeStyles({
   root: {
     minWidth: 700,
@@ -76,6 +82,20 @@ const Discover = () => {
     });
   };
 
+  const vote = (songId, liked) => {
+    fetch("/votes", {
+      method: "PUT", // *GET, POST, PUT, DELETE, etc.
+      headers: {
+        "Content-Type": "application/json",
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: JSON.stringify({ songId, liked, userId: user.user_id }), // body data type must match "Content-Type" header
+    }).then((data) => {
+      const json = data.json();
+      console.log(JSON.stringify(json));
+    });
+  };
+
   return (
     <div className="App">
       <div>
@@ -130,13 +150,32 @@ const Discover = () => {
                 />
               </CardContent>
               <CardActions>
-                {/* <Button
-                  variant="outlined"
-                  component={Link}
-                  to={"/song/" + song.song_id.toString()}
+                <p style={{ margin: "0px" }}>{song.total_votes}</p>
+
+                <IconButton
+                  onClick={() => {
+                    vote(song.song_id, true);
+                  }}
                 >
-                  {"Remix >"}
-                </Button> */}
+                  {song.liked_by_current_user ? (
+                    <ThumbUpIcon />
+                  ) : (
+                    <ThumbUpOutlinedIcon />
+                  )}
+                </IconButton>
+
+                <IconButton
+                  onClick={() => {
+                    vote(song.song_id, false);
+                  }}
+                >
+                  {song.liked_by_current_user != true &&
+                  song.liked_by_current_user != undefined ? (
+                    <ThumbDownIcon />
+                  ) : (
+                    <ThumbDownOutlinedIcon />
+                  )}
+                </IconButton>
               </CardActions>
             </Card>
           </span>

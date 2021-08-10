@@ -9,6 +9,7 @@ var myaccountRouter = require("./routes/myaccount");
 var usersRouter = require("./routes/users");
 var awsRouter = require("./routes/aws");
 var songsRouter = require("./routes/songs");
+var votesRouter = require("./routes/votes");
 const fileUpload = require("express-fileupload");
 
 var app = express();
@@ -46,6 +47,7 @@ app.use("/getUser", function (req, res, next) {
 
 app.use("/aws", awsRouter);
 app.use("/songs", songsRouter);
+app.use("/votes", votesRouter);
 
 // app.use("/myaccount", myaccountRouter);
 app.use("/users", usersRouter);
