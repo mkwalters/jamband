@@ -5,7 +5,8 @@ var database = require("../database");
 var router = express.Router();
 
 /* GET users listing. */
-router.get("/", function (req, res, next) {
+router.post("/", function (req, res, next) {
+  console.log(req.body.userId);
   database.query(
     `  SELECT
       *,
@@ -31,7 +32,7 @@ router.get("/", function (req, res, next) {
         FROM
             votes
         WHERE
-            votes.user_id = 12 AND votes.song_id = songs.song_id     
+            votes.user_id = $1 AND votes.song_id = songs.song_id     
       ) as liked_by_current_user
   FROM
       songs,users
@@ -53,14 +54,13 @@ router.get("/", function (req, res, next) {
           WHERE
               votes.song_id = songs.song_id and votes.liked = false
       ) DESC;`,
-    [],
+    [req.body.userId],
     function (err, result) {
       if (err) {
         return next(err);
       }
 
       // TODO: Handle undefined row.
-      console.log(result.rows);
       res.json({ data: result.rows });
     }
   );
@@ -78,7 +78,6 @@ router.get("/backingtracks", function (req, res, next) {
 
       // TODO: Handle undefined row.
 
-      console.log(result.rows);
       res.json({ data: result.rows });
     }
   );
@@ -119,7 +118,6 @@ router.get("/:id", function (req, res) {
         return next(err);
       }
 
-      console.log(result.rows);
       res.json({ data: result.rows });
     }
   );

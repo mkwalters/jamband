@@ -72,16 +72,19 @@ const Discover = () => {
 
   const audioPlayers = useRef([]);
 
-  const getUser = async () => {
-    fetch("/getUser").then((data) => {
-      data.json().then((json) => {
-        setUser(json);
-      });
-    });
-  };
-
   const getSongs = () => {
-    fetch("/songs").then((data) => {
+    let userId = -1;
+    if (_.keys(user).length > 0) {
+      userId = user.user_id;
+    }
+    fetch("/songs", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: JSON.stringify({ userId }),
+    }).then((data) => {
       data.json().then((json) => {
         setSongs(json.data);
       });
@@ -89,9 +92,8 @@ const Discover = () => {
   };
 
   useEffect(() => {
-    setUser(getUser());
     getSongs();
-  }, []);
+  }, [user]);
 
   const pauseAllButtonsExceptCurrent = (currentId) => {
     // console.log(audioPlayers.current[0].player);
@@ -170,6 +172,7 @@ const Discover = () => {
             Please log in to vote
           </Alert>
         </Snackbar>
+
         {songs.map((song, index) => (
           <span style={{ display: "flex", justifyContent: "center" }}>
             <Card

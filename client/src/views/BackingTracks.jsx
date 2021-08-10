@@ -68,13 +68,13 @@ const BackingTracks = () => {
     setOpen(false);
   };
 
-  const getUser = async () => {
-    fetch("/getUser").then((data) => {
-      data.json().then((json) => {
-        setUser(json);
-      });
-    });
-  };
+  // const getUser = async () => {
+  //   fetch("/getUser").then((data) => {
+  //     data.json().then((json) => {
+  //       setUser(json);
+  //     });
+  //   });
+  // };
 
   const getSongs = () => {
     fetch("/songs/backingtracks").then((data) => {
@@ -85,7 +85,7 @@ const BackingTracks = () => {
   };
 
   useEffect(() => {
-    setUser(getUser());
+    // setUser(getUser());
     getSongs();
   }, []);
 
