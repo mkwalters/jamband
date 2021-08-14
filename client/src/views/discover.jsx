@@ -206,7 +206,7 @@ const Discover = () => {
                   by {song.username}
                 </Typography> */}
                 <AudioPlayer
-                  src={song.s3key}
+                  src={""}
                   onPlay={(e) => {
                     pauseAllButtonsExceptCurrent(song.song_id);
                     setCurrentSongId(song.song_id);
