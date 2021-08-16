@@ -15,7 +15,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import TestSong from "../mississippiHalfStep.mp3";
 import { UserContext } from "../UserContext";
-
+import api from "../api.js";
 var _ = require("lodash");
 
 function Alert(props) {
@@ -46,9 +46,7 @@ const useStyles = makeStyles({
 
 const MyAudioPlayer = (props) => {
   const classes = useStyles();
-  // const [currentSongId, setCurrentSongId] = useState(-1);
   const [open, setOpen] = useState(false);
-  const [songs, setSongs] = useState(props.user);
   const [totalVotes, setTotalVotes] = useState(props.song.total_votes);
   const [likedByCurrentUser, setLikedByCurrentUser] = useState(
     props.song.liked_by_current_user
@@ -68,50 +66,42 @@ const MyAudioPlayer = (props) => {
     }
     setOpen(false);
   };
-  const vote = (songId, liked) => {
+  const vote = async (songId, liked) => {
     if (_.keys(user).length === 0) {
       openSnackBar();
       return;
     } else {
       console.log(user);
     }
-    fetch("/votes", {
-      method: "PUT", // *GET, POST, PUT, DELETE, etc.
-      headers: {
-        "Content-Type": "application/json",
-        // 'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: JSON.stringify({ songId, liked, userId: user.user_id }), // body data type must match "Content-Type" header
-    }).then((data) => {
-      data.json().then((json) => {
-        const totalVotesInt = Number.parseInt(totalVotes);
-        if (likedByCurrentUser === false) {
-          if (json.liked) {
-            setTotalVotes(totalVotesInt + 2);
-          } else {
-            setTotalVotes(totalVotesInt + 1);
-          }
-        }
-        if (likedByCurrentUser === null) {
-          if (json.liked) {
-            setTotalVotes(totalVotesInt + 1);
-          } else {
-            setTotalVotes(totalVotesInt - 1);
-          }
-        }
-        if (likedByCurrentUser === true) {
-          if (json.liked === null) {
-            setTotalVotes(totalVotesInt - 1);
-          } else {
-            setTotalVotes(totalVotesInt - 2);
-          }
-        }
-        setLikedByCurrentUser(json.liked);
-      });
-    });
+    let json = await api.vote(songId, liked, user);
+    console.log(json);
+    changeTotalVotes(json.liked);
+    setLikedByCurrentUser(json.liked);
   };
-
-  // const audioPlayers = useRef([]);
+  const changeTotalVotes = (newStatus) => {
+    const totalVotesInt = Number.parseInt(totalVotes);
+    if (likedByCurrentUser === false) {
+      if (newStatus) {
+        setTotalVotes(totalVotesInt + 2);
+      } else {
+        setTotalVotes(totalVotesInt + 1);
+      }
+    }
+    if (likedByCurrentUser === null) {
+      if (newStatus) {
+        setTotalVotes(totalVotesInt + 1);
+      } else {
+        setTotalVotes(totalVotesInt - 1);
+      }
+    }
+    if (likedByCurrentUser === true) {
+      if (newStatus === null) {
+        setTotalVotes(totalVotesInt - 1);
+      } else {
+        setTotalVotes(totalVotesInt - 2);
+      }
+    }
+  };
 
   return (
     <div>
@@ -175,11 +165,7 @@ const MyAudioPlayer = (props) => {
                   vote(props.song.song_id, true);
                 }}
               >
-                {props.song.liked_by_current_user ? (
-                  <ThumbUpIcon />
-                ) : (
-                  <ThumbUpOutlinedIcon />
-                )}
+                {likedByCurrentUser ? <ThumbUpIcon /> : <ThumbUpOutlinedIcon />}
               </IconButton>
 
               <IconButton
@@ -187,8 +173,8 @@ const MyAudioPlayer = (props) => {
                   vote(props.song.song_id, false);
                 }}
               >
-                {props.song.liked_by_current_user != true &&
-                props.song.liked_by_current_user != undefined ? (
+                {likedByCurrentUser != true &&
+                likedByCurrentUser != undefined ? (
                   <ThumbDownIcon />
                 ) : (
                   <ThumbDownOutlinedIcon />

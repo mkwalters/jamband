@@ -17,4 +17,17 @@ const getSongs = async (user) => {
   return data;
 };
 
-export default { getSongs };
+const vote = async (songId, liked, user) => {
+  let serverFetch = await fetch("/votes", {
+    method: "PUT", // *GET, POST, PUT, DELETE, etc.
+    headers: {
+      "Content-Type": "application/json",
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: JSON.stringify({ songId, liked, userId: user.user_id }), // body data type must match "Content-Type" header
+  });
+  let data = await serverFetch.json();
+  return data;
+};
+
+export default { getSongs, vote };

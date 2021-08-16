@@ -1,14 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import MyAudioPlayer from "./MyAudioPlayer";
 import AudioPlayer from "react-h5-audio-player";
+
 var _ = require("lodash");
 
 const AudioPlayers = (props) => {
   const [currentSongId, setCurrentSongId] = useState(-1);
-  // const [arr, setArr] = useState(["a", "b"]);
-  // const myRefs = useRef(arr.map(() => React.createRef()));
-
-  const [songs, setSongs] = useState(props.user);
 
   const updateCurrentSongId = (songId) => {
     setCurrentSongId(songId);
