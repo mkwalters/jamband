@@ -70,11 +70,8 @@ const MyAudioPlayer = (props) => {
     if (_.keys(user).length === 0) {
       openSnackBar();
       return;
-    } else {
-      console.log(user);
     }
     let json = await api.vote(songId, liked, user);
-    console.log(json);
     changeTotalVotes(json.liked);
     setLikedByCurrentUser(json.liked);
   };
