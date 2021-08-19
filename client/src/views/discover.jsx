@@ -1,7 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
 import { UserContext } from "../UserContext";
-import "react-h5-audio-player/lib/styles.css";
-import "../card.css";
 import api from "../api.js";
 import AudioPlayers from "../components/AudioPlayers";
 
