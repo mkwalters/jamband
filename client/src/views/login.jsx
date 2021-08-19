@@ -29,13 +29,6 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const updateUsername = (event) => {
-    setUsername(event.target.value);
-  };
-  const updatePassword = (event) => {
-    setPassword(event.target.value);
-  };
-
   const submit = () => {
     fetch("/login/password/", {
       method: "POST",
@@ -52,24 +45,6 @@ const Login = () => {
   return (
     <main class="container">
       <article class="grid">
-        {/* <div>
-          <TextField
-            className={classes.root}
-            onChange={updateUsername}
-            id="standard-basic"
-            label="Username"
-          />
-          <TextField
-            onChange={updatePassword}
-            className={classes.root}
-            id="standard-basic"
-            label="Password"
-          />
-          <Button onClick={submit} variant="outlined" className={classes.root}>
-            Submit
-          </Button>
-        </div> */}
-
         <Card className={classes.root}>
           <CardContent>
             <div>

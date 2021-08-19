@@ -3,6 +3,7 @@ import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { UserContext } from "../UserContext";
 import { makeStyles } from "@material-ui/core/styles";
+import api from "../api";
 var _ = require("lodash");
 
 const useStyles = makeStyles((theme) => ({
@@ -31,14 +32,6 @@ const Appbar = () => {
     setUser({});
   };
 
-  const userLoggedin = () => {
-    if (_.keys(user).length === 0 || user === null) {
-      return false;
-    } else {
-      return true;
-    }
-  };
-
   return (
     <div className={classes.root}>
       <AppBar position="static" style={{ backgroundColor: "#FFFDD0" }}>
@@ -54,9 +47,20 @@ const Appbar = () => {
           >
             Backing Tracks
           </Button>
+          <Button
+            variant="outlined"
+            component={Link}
+            onClick={() => {
+              console.log(api.userLoggedin(user));
+            }}
+            className={classes.menuButton}
+          >
+            logged in
+          </Button>
+
           <Typography variant="h6" className={classes.title}></Typography>
 
-          {_.keys(user).length === 0 && (
+          {!api.userLoggedin(user) && (
             <div>
               <Button variant="outlined" component={Link} to={"/login"}>
                 Log in
@@ -71,7 +75,7 @@ const Appbar = () => {
             {_.keys(user).length > 0 && user.username}
           </Typography>
 
-          {_.keys(user).length > 0 && (
+          {api.userLoggedin(user) && (
             <Button variant="outlined" component={Link} onClick={logout}>
               Logout
             </Button>

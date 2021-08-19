@@ -67,7 +67,7 @@ const MyAudioPlayer = (props) => {
     setOpen(false);
   };
   const vote = async (songId, liked) => {
-    if (_.keys(user).length === 0) {
+    if (!api.userLoggedin(user)) {
       openSnackBar();
       return;
     }

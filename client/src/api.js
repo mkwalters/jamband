@@ -1,5 +1,13 @@
 var _ = require("lodash");
 
+const userLoggedin = (user) => {
+  if (_.keys(user).length === 0 || user === null) {
+    return false;
+  } else {
+    return true;
+  }
+};
+
 const getSongs = async (user) => {
   let userId = -1;
   if (_.keys(user).length > 0) {
@@ -30,4 +38,4 @@ const vote = async (songId, liked, user) => {
   return data;
 };
 
-export default { getSongs, vote };
+export default { getSongs, vote, userLoggedin };
