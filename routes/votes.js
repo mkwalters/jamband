@@ -5,9 +5,6 @@ var database = require("../database");
 var router = express.Router();
 
 router.put("/", function (req, res, next) {
-  console.log();
-  console.log(req.body);
-
   database
     .query(`select * from votes WHERE song_id = $2 and user_id = $1`, [
       req.body.userId,

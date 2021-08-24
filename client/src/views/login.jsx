@@ -7,19 +7,10 @@ import CardContent from "@material-ui/core/CardContent";
 
 const useStyles = makeStyles({
   root: {
-    minWidth: 700,
     margin: "20px",
     backgroundColor: "#FFFDD0",
     display: "flex",
   },
-
-  title: {
-    fontSize: 18,
-  },
-  author: {
-    fontSize: 13,
-  },
-  tree: {},
 });
 
 const Login = () => {
