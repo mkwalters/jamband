@@ -9,7 +9,7 @@ import { TreeView, TreeItem } from "@material-ui/lab";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { UserContext } from "../UserContext";
-
+import UploadButton from "../components/UploadButton";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -50,7 +50,7 @@ const useStyles = makeStyles({
 
 const Song = () => {
   const classes = useStyles();
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const parentNodeIds = [];
   const [playing, setPlaying] = useState(false);
 
@@ -208,7 +208,8 @@ const Song = () => {
             style={{ opacity: "0.5" }}
             // other props here
           />
-
+        </CardContent>
+        <CardActions>
           <IconButton
             onClick={() => {
               download(songData.s3key, `${songData.name}.mp3`);
@@ -216,30 +217,9 @@ const Song = () => {
           >
             <CloudDownloadIcon />
           </IconButton>
-
-          {/* <a href={songData.s3key} download="filename.mp3">
-            Click to download
-          </a> */}
-
-          <Button variant="outlined" onClick={toggleRemixing}>
-            Upload a remix
-          </Button>
-          {remixing && (
-            <FileUpload
-              previousPath={songData.path}
-              user={user}
-              original={false}
-            />
-          )}
-        </CardContent>
-        <CardActions>
-          {/* <Button
-                  variant="outlined"
-                  component={Link}
-                  to={"/song/" + song.song_id.toString()}
-                >
-                  {"Remix >"}
-                </Button> */}
+          <div>
+            <UploadButton label="Remix this track"></UploadButton>
+          </div>
         </CardActions>
       </Card>
 
