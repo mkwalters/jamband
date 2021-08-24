@@ -47,16 +47,6 @@ const Appbar = () => {
           >
             Backing Tracks
           </Button>
-          <Button
-            variant="outlined"
-            component={Link}
-            onClick={() => {
-              console.log(api.userLoggedin(user));
-            }}
-            className={classes.menuButton}
-          >
-            logged in
-          </Button>
 
           <Typography variant="h6" className={classes.title}></Typography>
 
