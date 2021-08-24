@@ -16,7 +16,6 @@ import MuiAlert from "@material-ui/lab/Alert";
 import TestSong from "../mississippiHalfStep.mp3";
 import { UserContext } from "../UserContext";
 import api from "../api.js";
-var _ = require("lodash");
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -60,7 +59,6 @@ const MyAudioPlayer = (props) => {
     setOpen(true);
   };
   const handleClose = (event, reason) => {
-    console.log("closing");
     if (reason === "clickaway") {
       return;
     }
@@ -141,7 +139,7 @@ const MyAudioPlayer = (props) => {
                   : props.song.s3Key
               }
               onPlay={(e) => {
-                props.pauseOtherPlayers(props.song.song_id);
+                // props.pauseOtherPlayers(props.song.song_id);
                 // props.updateCurrentSongId(props.song.song_id);
               }}
               style={{ opacity: "0.5" }}
