@@ -7,6 +7,7 @@ import FileUpload from "../components/FileUpload";
 import { Button } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
+import api from "../api.js";
 var _ = require("lodash");
 
 const useStyles = makeStyles({
@@ -29,17 +30,17 @@ const UploadButton = ({ label }) => {
   };
 
   const handleToggleUpload = () => {
-    if (_.keys(user).length === 0) {
+    if (!api.userLoggedin(user)) {
       openSnackBar();
-      return;
+    } else {
+      setToggleUpload(toggleUpload ? false : true);
     }
-    setToggleUpload(toggleUpload ? false : true);
   };
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
-      return;
+    } else {
+      setOpen(false);
     }
-    setOpen(false);
   };
 
   return (
