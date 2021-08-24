@@ -3,14 +3,12 @@ var passport = require("passport");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-
 var authRouter = require("./routes/auth");
 var usersRouter = require("./routes/users");
 var awsRouter = require("./routes/aws");
 var songsRouter = require("./routes/songs");
 var votesRouter = require("./routes/votes");
 const fileUpload = require("express-fileupload");
-
 var app = express();
 require("./boot/auth")();
 
