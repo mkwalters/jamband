@@ -1,12 +1,10 @@
 var express = require("express");
 var ensureLoggedIn = require("connect-ensure-login").ensureLoggedIn;
 var database = require("../database");
-
 var router = express.Router();
 
 /* GET users listing. */
 router.post("/", function (req, res, next) {
-  console.log(req.body.userId);
   database.query(
     `  SELECT
       *,
@@ -67,7 +65,6 @@ router.post("/", function (req, res, next) {
 });
 
 router.get("/backingtracks", function (req, res, next) {
-  console.log("fetching backing trackls");
   database.query(
     "SELECT * FROM songs, users WHERE author = user_id and original = true",
     [],
@@ -84,13 +81,6 @@ router.get("/backingtracks", function (req, res, next) {
 });
 //"*." + req.params.node + ".*"
 router.get("/getTree/:furthestAncestor", function (req, res, next) {
-  console.log("getting tree");
-  console.log(req.params.furthestAncestor);
-  console.log(
-    `SELECT path FROM songs WHERE path ~ '${
-      "*." + req.params.furthestAncestor + ".*"
-    }'`
-  );
   database.query(
     `SELECT * FROM songs WHERE path ~ '${
       "*." + req.params.furthestAncestor + ".*"
@@ -103,7 +93,6 @@ router.get("/getTree/:furthestAncestor", function (req, res, next) {
 
       // TODO: Handle undefined row.
 
-      console.log(result.rows);
       res.json({ data: result.rows });
     }
   );
@@ -111,7 +100,7 @@ router.get("/getTree/:furthestAncestor", function (req, res, next) {
 
 router.get("/:id", function (req, res) {
   database.query(
-    "SELECT * FROM songs WHERE song_id = $1",
+    "SELECT * FROM songs, users WHERE song_id = $1 and user_id = $1",
     [req.params.id],
     function (err, result) {
       if (err) {
