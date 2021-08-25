@@ -17,10 +17,12 @@ const Discover = () => {
   }, [user]);
 
   return (
-    <div className="App">
-      <div>
+    <div style={{ display: "flex", flexDirection: "row" }}>
+      <div style={{ display: "flex", flex: 1 }}></div>
+      <div style={{ display: "flex", flex: 1 }}>
         <AudioPlayers songData={songs} user={user}></AudioPlayers>
       </div>
+      <div style={{ display: "flex", flex: 1 }}></div>
     </div>
   );
 };

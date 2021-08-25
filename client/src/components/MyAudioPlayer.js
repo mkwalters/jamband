@@ -23,10 +23,7 @@ function Alert(props) {
 
 const useStyles = makeStyles({
   root: {
-    width: "100%",
-    height: "100%",
-    marginTop: "12px",
-    marginBottom: "12px",
+    width: "auto",
     backgroundColor: "#FFFDD0",
   },
   title: {
