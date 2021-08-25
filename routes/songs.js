@@ -100,7 +100,7 @@ router.get("/getTree/:furthestAncestor", function (req, res, next) {
 
 router.get("/:id", function (req, res) {
   database.query(
-    "SELECT * FROM songs, users WHERE song_id = $1 and user_id = $1",
+    "SELECT * FROM songs WHERE song_id = $1",
     [req.params.id],
     function (err, result) {
       if (err) {
